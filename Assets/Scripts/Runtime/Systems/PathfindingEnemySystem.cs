@@ -17,10 +17,11 @@ namespace Runtime.Systems
         private Filter _playerFilter;
         private Stash<NavMeshAgentComponent> _navAgentStash;
         private Stash<UnitComponent> _unitStash;
-
-        private const float TargetReachedThreshold = 2f;
+        
         private const float StopDistance = 4.0f;
-        private NavMeshPath _path = new();
+        private const float PathRecalculationInterval = 2.5f;
+
+        private float _systemUpdateTimer = 0f;
 
         public void OnAwake()
         {
@@ -33,22 +34,27 @@ namespace Runtime.Systems
 
         public void OnUpdate(float deltaTime)
         {
+            _systemUpdateTimer -= deltaTime;
+            
+            foreach (var enemyEntity in _enemyFilter)
+            {
+                ref var agentComponent = ref _navAgentStash.Get(enemyEntity);
+                DrawPath(agentComponent.NavMeshAgent);
+            }
+            
+            if (_systemUpdateTimer > 0)
+                return;
+            
+            _systemUpdateTimer = PathRecalculationInterval;
+            
             foreach (var enemyEntity in _enemyFilter)
             {
                 ref var agentComponent = ref _navAgentStash.Get(enemyEntity);
                 ref var unitEnemyComponent = ref _unitStash.Get(enemyEntity);
 
-                var sqrDistToTarget = (unitEnemyComponent.RootTransform.position - agentComponent.TargetPosition).sqrMagnitude;
-                // if (sqrDistToTarget > TargetReachedThreshold * TargetReachedThreshold)
-                // {
-                //     DrawPath(agentComponent.NavMeshAgent);
-                //     continue;
-                // }
-
                 var bestSqrDistance = float.MaxValue;
                 var targetPosition = Vector3.zero;
                 var currentEnemyPosition = unitEnemyComponent.RootTransform.position;
-
 
                 foreach (var targetEntity in _playerFilter)
                 {
@@ -68,16 +74,13 @@ namespace Runtime.Systems
                     if (direction == Vector3.zero)
                         direction = Vector3.forward;
 
-
                     agentComponent.TargetPosition = targetPosition + direction * StopDistance;
-                    //agentComponent.PathCalculated = true;
 
-                    if (agentComponent.NavMeshAgent.CalculatePath(agentComponent.TargetPosition, _path))
+                    var path = new NavMeshPath();
+                    if (agentComponent.NavMeshAgent.CalculatePath(agentComponent.TargetPosition, path))
                     {
-                        agentComponent.Path = _path;
+                        agentComponent.Path = path;
                     }
-                    
-                    Debug.Log("Computed path to " + agentComponent.TargetPosition);
                 }
             }
         }

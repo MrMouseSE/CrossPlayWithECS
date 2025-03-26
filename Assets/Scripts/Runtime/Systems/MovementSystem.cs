@@ -17,16 +17,12 @@ namespace Runtime.Systems
         private Filter _playerTargetFilter;
         private Stash<NavMeshAgentComponent> _agentStash;
         private Stash<UnitComponent> _unitStash;
-        
-       
+
 
         public void OnAwake()
         {
             _enemyFilter = World.Filter.With<NavMeshAgentComponent>().With<EnemyMarker>().Build();
-            //_playerTargetFilter = World.Filter.With<PlayerMarker>().With<UnitComponent>().Build();
-
             _agentStash = World.GetStash<NavMeshAgentComponent>();
-            //_unitStash = World.GetStash<UnitComponent>();
         }
 
         public void OnUpdate(float deltaTime)
@@ -34,57 +30,11 @@ namespace Runtime.Systems
             foreach (var enemyEntity in _enemyFilter)
             {
                 ref var agentComponent = ref _agentStash.Get(enemyEntity);
-               // ref var unitEnemyComponent = ref _unitStash.Get(enemyEntity);
-                agentComponent.NavMeshAgent.SetPath(agentComponent.Path);
-                //
-                // if (agentComponent.PathCalculated)
-                // {
-                //     var sqrDistToTarget = (unitEnemyComponent.RootTransform.position - agentComponent.TargetPosition)
-                //         .sqrMagnitude;
-                //     if (sqrDistToTarget > TargetReachedThreshold * TargetReachedThreshold)
-                //     {
-                //         DrawPath(agentComponent.NavMeshAgent);
-                //         continue;
-                //     }
-                // }
-                //
-                // var bestSqrDistance = float.MaxValue;
-                // var bestTargetPos = Vector3.zero;
-                // var enemyPos = unitEnemyComponent.RootTransform.position;
-                //
-                //
-                // foreach (var targetEntity in _playerTargetFilter)
-                // {
-                //     ref var unitComponent = ref _unitStash.Get(targetEntity);
-                //     var targetPos = unitComponent.RootTransform.position;
-                //     var sqrDist = (enemyPos - targetPos).sqrMagnitude;
-                //     if (sqrDist < bestSqrDistance)
-                //     {
-                //         bestSqrDistance = sqrDist;
-                //         bestTargetPos = targetPos;
-                //     }
-                // }
-                //
-                // if (bestSqrDistance < float.MaxValue)
-                // {
-                //     var direction = (unitEnemyComponent.RootTransform.position - bestTargetPos).normalized;
-                //     if (direction == Vector3.zero)
-                //         direction = Vector3.forward;
-                //
-                //
-                //     agentComponent.TargetPosition = bestTargetPos + direction * StopDistance;
-                //     agentComponent.PathCalculated = true;
-                //
-                //     if (agentComponent.NavMeshAgent.CalculatePath(agentComponent.TargetPosition, _path))
-                //     {
-                //         agentComponent.NavMeshAgent.SetPath(_path);
-                //     }
-                // }
+                if (agentComponent.Path != null)
+                    agentComponent.NavMeshAgent.SetPath(agentComponent.Path);
             }
         }
-        
-        public void Dispose()
-        {
-        }
+
+        public void Dispose() { }
     }
 }
