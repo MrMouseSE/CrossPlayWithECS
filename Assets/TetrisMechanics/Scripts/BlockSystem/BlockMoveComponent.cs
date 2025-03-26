@@ -12,9 +12,14 @@ namespace TetrisMechanics.Scripts.BlockSystem
     {
         public Transform BlockTransform;
 
-        public void UpdateBlockPosition()
+        public void UpdateBlockPosition(Vector3 offset)
         {
-            BlockTransform.Translate(Vector3.down);
+            BlockTransform.Translate(offset);
+        }
+
+        public void UpdatePositionByRotation(Vector3 rotateRoot, Quaternion rotation)
+        {
+            BlockTransform.position = rotateRoot + (rotation * (BlockTransform.position - rotateRoot));
         }
     }
 }

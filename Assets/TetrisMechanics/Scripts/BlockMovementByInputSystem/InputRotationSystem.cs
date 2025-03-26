@@ -17,16 +17,19 @@ namespace TetrisMechanics.Scripts.BlockMovementByInputSystem
     
         public void OnUpdate(float deltaTime)
         {
-            Filter currentSelectionFilter = World.Filter.With<CurrentSelectedComponent>().Build();
+            Filter currentSelectionFilter = World.Filter.With<CurrentSelectedComponent>().With<BlockMoveComponent>().Build();
             if (currentSelectionFilter.IsEmpty()) return;
             Stash<CurrentSelectedComponent> currentSelectedStash = World.GetStash<CurrentSelectedComponent>();
+            Stash<BlockMoveComponent> currentMoveStash = World.GetStash<BlockMoveComponent>();
             Filter inputFilter = World.Filter.With<InputHolderComponent>().Build();
             Stash<InputHolderComponent> inputHolderStash = World.GetStash<InputHolderComponent>();
             
             foreach (var entity in currentSelectionFilter)
             {
                 ref var currentSelectedComponent = ref currentSelectedStash.Get(entity);
-                currentSelectedComponent.Rotate(inputHolderStash.Get(inputFilter.First()).GetBlockRotation());
+                ref var currentMoveComponent = ref currentMoveStash.Get(entity);
+                currentMoveComponent.UpdatePositionByRotation(currentSelectedComponent.RotateTransform.position,
+                    inputHolderStash.Get(inputFilter.First()).GetBlockRotation());
             }
         }
     

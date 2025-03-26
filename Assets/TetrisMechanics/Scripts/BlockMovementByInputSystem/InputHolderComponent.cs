@@ -10,10 +10,21 @@ namespace TetrisMechanics.Scripts.BlockMovementByInputSystem
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct InputHolderComponent : IComponent
     {
+        public Vector3 VerticalMovementDirection;
         public Vector3 HorizontalMovementDirection;
         public bool IsForcedDown;
         
         private Quaternion _rotation;
+
+        public void UpdateVerticalMovementDirection(in Vector3 verticalMovementDirection)
+        {
+            VerticalMovementDirection += verticalMovementDirection;
+        }
+
+        public void UpdateHorizontalMovementDirection(Vector3 movementDirection)
+        {
+            HorizontalMovementDirection += movementDirection;
+        }
 
         public void SetBlockRotation(int direction)
         {
@@ -28,6 +39,7 @@ namespace TetrisMechanics.Scripts.BlockMovementByInputSystem
         public void RestoreHoldedData()
         {
             HorizontalMovementDirection = Vector3.zero;
+            VerticalMovementDirection = Vector3.zero;
             IsForcedDown = false;
             _rotation = Quaternion.identity;
         }

@@ -1,5 +1,6 @@
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace TetrisMechanics.Scripts.BlockSystem
 {
@@ -32,7 +33,7 @@ namespace TetrisMechanics.Scripts.BlockSystem
                 ref var stepAwaiterComponent = ref _stepAwaiterStash.Get(entity);
                 ref var landingCheckComponent = ref _landingCheckStash.Get(entity);
                 if (!stepAwaiterComponent.UpdateTimeAndCheckReadyForEvaluate(deltaTime)) continue;
-                if (!landingCheckComponent.IsLanded) moveBlockComponent.UpdateBlockPosition();
+                if (!landingCheckComponent.IsLanded) moveBlockComponent.UpdateBlockPosition(Vector3.down);
             }
         }
 

@@ -1,6 +1,7 @@
 using Scellecs.Morpeh;
 using TetrisMechanics.Scripts.BlockSystem;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace TetrisMechanics.Scripts.BlockDestroySystem
 {
@@ -37,7 +38,7 @@ namespace TetrisMechanics.Scripts.BlockDestroySystem
                     ref var blockDestroyComponent = ref blockDestroyStash.Get(entityToMove);
                     if (blockDestroyComponent.VerticalIndex > destroyComponent.DestroyVerticalIndex)
                     {
-                        blockMoveComponent.UpdateBlockPosition();
+                        blockMoveComponent.UpdateBlockPosition(Vector3.down);
                         StaticLinesHolder.AddBlockDestroyComponent(blockDestroyComponent);
                     }
                 }

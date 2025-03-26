@@ -21,14 +21,13 @@ namespace TetrisMechanics.Scripts
 
             var spawnSystem = _world.CreateSystemsGroup();
             spawnSystem.AddSystem(new SpawnSystem());
-            spawnSystem.AddSystem(new SelectionInitializeSystem());
             
             var inputMovementSystem = _world.CreateSystemsGroup();
             inputMovementSystem.AddSystem(new InputHolderSystem(InputActions));
-            inputMovementSystem.AddSystem(new InputHorizontalMovementSystem());
             inputMovementSystem.AddSystem(new InputRotationSystem());
-            inputMovementSystem.AddSystem(new InputForceDownSystem());
             inputMovementSystem.AddSystem(new VerticalBorderCheckSystem());
+            inputMovementSystem.AddSystem(new InputForceDownSystem());
+            inputMovementSystem.AddSystem(new InputMovementSystem());
             inputMovementSystem.AddSystem(new InputValuesRestoreSystem());
             
             var blockMovementSystem = _world.CreateSystemsGroup();
