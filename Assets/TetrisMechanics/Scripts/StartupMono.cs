@@ -24,7 +24,7 @@ namespace TetrisMechanics.Scripts
             
             var inputMovementSystem = _world.CreateSystemsGroup();
             inputMovementSystem.AddSystem(new InputHolderSystem(InputActions));
-            inputMovementSystem.AddSystem(new InputRotationSystem());
+            //inputMovementSystem.AddSystem(new InputRotationSystem());
             inputMovementSystem.AddSystem(new VerticalBorderCheckSystem());
             inputMovementSystem.AddSystem(new InputForceDownSystem());
             inputMovementSystem.AddSystem(new InputMovementSystem());

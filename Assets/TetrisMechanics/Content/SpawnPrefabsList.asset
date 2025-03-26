@@ -13,4 +13,10 @@ MonoBehaviour:
   m_Name: SpawnPrefabsList
   m_EditorClassIdentifier: 
   BlockPrefabs:
-  - {fileID: 7661171079854320765, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
+  - {fileID: 4039079927499505330, guid: 6b1a64ee8d696aa4da92af77890801fb, type: 3}
+  - {fileID: 4039079927499505330, guid: e6b69ab59c9b1d842972db71a410177c, type: 3}
+  - {fileID: 4039079927499505330, guid: 7026c8f53b6720242bb2ac2ce18f3844, type: 3}
+  - {fileID: 4039079927499505330, guid: 1644fbb2ddf4c0a43ac8e3bf8ad8e777, type: 3}
+  - {fileID: 4039079927499505330, guid: bb26d04e38551d5488b55781f05519d9, type: 3}
+  - {fileID: 4039079927499505330, guid: fe5a08e381adb7c4d8a76a2bce9b91d9, type: 3}
+  - {fileID: 4039079927499505330, guid: d70516a9681be0c42ba85315649d44e6, type: 3}

@@ -571,6 +571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
+    VerticalMovementDirection: {x: 0, y: 0, z: 0}
     HorizontalMovementDirection: {x: 0, y: 0, z: 0}
     IsForcedDown: 0
 --- !u!1 &1082042512
@@ -704,7 +705,7 @@ Transform:
   m_GameObject: {fileID: 1082042512}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.98, y: 9.95, z: -18}
+  m_LocalPosition: {x: 4.54, y: 9.95, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

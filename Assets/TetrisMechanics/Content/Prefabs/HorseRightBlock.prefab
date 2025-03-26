@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4856537862970222669}
   m_Layer: 0
-  m_Name: ComplexBlock
+  m_Name: HorseRightBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,7 +86,7 @@ PrefabInstance:
     - target: {fileID: 2122564211038879640, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
       propertyPath: serializedData.RotateTransform
       value: 
-      objectReference: {fileID: 2987873392169354541}
+      objectReference: {fileID: 944074064220870113}
     - target: {fileID: 7661171079854320765, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
       propertyPath: m_Name
       value: BlockPrefab (3)
@@ -149,6 +149,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2122564211038879640, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
+      propertyPath: serializedData.RotateTransform
+      value: 
+      objectReference: {fileID: 944074064220870113}
     - target: {fileID: 7661171079854320765, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
       propertyPath: m_Name
       value: BlockPrefab (1)
@@ -161,11 +165,6 @@ PrefabInstance:
 --- !u!4 &944074064220870113 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 678614895312145641, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
-  m_PrefabInstance: {fileID: 320013936660699400}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2987873392169354541 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3244814943543712805, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
   m_PrefabInstance: {fileID: 320013936660699400}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &590235239009877648
@@ -219,7 +218,7 @@ PrefabInstance:
     - target: {fileID: 2122564211038879640, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
       propertyPath: serializedData.RotateTransform
       value: 
-      objectReference: {fileID: 2987873392169354541}
+      objectReference: {fileID: 944074064220870113}
     - target: {fileID: 7661171079854320765, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
       propertyPath: m_Name
       value: BlockPrefab
@@ -244,11 +243,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 678614895312145641, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 678614895312145641, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 678614895312145641, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
       propertyPath: m_LocalPosition.z
@@ -285,7 +284,7 @@ PrefabInstance:
     - target: {fileID: 2122564211038879640, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
       propertyPath: serializedData.RotateTransform
       value: 
-      objectReference: {fileID: 2987873392169354541}
+      objectReference: {fileID: 944074064220870113}
     - target: {fileID: 7661171079854320765, guid: 1663f58bdee4e1e41812c8d3034b3d20, type: 3}
       propertyPath: m_Name
       value: BlockPrefab (2)

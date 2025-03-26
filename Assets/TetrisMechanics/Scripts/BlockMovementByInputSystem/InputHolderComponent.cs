@@ -28,7 +28,7 @@ namespace TetrisMechanics.Scripts.BlockMovementByInputSystem
 
         public void SetBlockRotation(int direction)
         {
-            _rotation = Quaternion.Euler(0f, 0f, direction * 90f);
+            _rotation = Quaternion.AngleAxis(direction * 90f, Vector3.forward);
         }
 
         public Quaternion GetBlockRotation()

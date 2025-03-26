@@ -17,9 +17,9 @@ namespace TetrisMechanics.Scripts.BlockSystem
             BlockTransform.Translate(offset);
         }
 
-        public void UpdatePositionByRotation(Vector3 rotateRoot, Quaternion rotation)
+        public void UpdatePositionByRotation(Vector3 rotateRootPosition, Quaternion rotation)
         {
-            BlockTransform.position = rotateRoot + (rotation * (BlockTransform.position - rotateRoot));
+            BlockTransform.position = rotateRootPosition + (rotation * (BlockTransform.position - rotateRootPosition));
         }
     }
 }
