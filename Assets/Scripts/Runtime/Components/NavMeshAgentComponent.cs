@@ -11,5 +11,7 @@ namespace Runtime.Components
     public struct NavMeshAgentComponent : IComponent
     {
         public NavMeshAgent NavMeshAgent;
+        public UnityEngine.Vector3 TargetPosition;
+        public NavMeshPath Path;
     }
 }

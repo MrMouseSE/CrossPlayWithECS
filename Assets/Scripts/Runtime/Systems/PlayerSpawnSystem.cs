@@ -37,7 +37,7 @@ namespace Runtime.Systems
             _spawnAreaStash = World.GetStash<SpawnAreaComponent>();
 
             _playerUnitCountEntity = World.CreateEntity();
-            _playerUnitCountStash.Set(_playerUnitCountEntity, new PlayerUnitCount { Count = 1 });
+            _playerUnitCountStash.Set(_playerUnitCountEntity, new PlayerUnitCount { Count = 5 });
 
             _playerFilter = World.Filter.With<PlayerMarker>().With<UnitComponent>().Build();
             _spawnAreaFilter = World.Filter.With<SpawnAreaComponent>().With<PlayerMarker>().Build();
