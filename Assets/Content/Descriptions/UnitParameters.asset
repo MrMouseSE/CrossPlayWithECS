@@ -12,7 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0739a9347b99df44eb2a580ecff5297a, type: 3}
   m_Name: UnitParameters
   m_EditorClassIdentifier: 
-  Damage: 2.5
-  AttackRange: 5
+  Damage: 5
+  AttackRange:
+    x: 3
+    y: 5
   HealthPoints: 100
-  AttackCooldown: 1
+  AttackCooldown:
+    x: 1.5
+    y: 2
+  Speed:
+    x: 3.5
+    y: 5

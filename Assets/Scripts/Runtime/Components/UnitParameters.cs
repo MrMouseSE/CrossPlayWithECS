@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Runtime.Components
@@ -6,8 +7,9 @@ namespace Runtime.Components
     public class UnitParameters : ScriptableObject
     {
         public float Damage;
-        public float AttackRange;
+        public float2 AttackRange;
         public int HealthPoints;
-        public float AttackCooldown;
+        public float2 AttackCooldown;
+        public float2 Speed;
     }
 }

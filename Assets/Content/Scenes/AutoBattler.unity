@@ -1585,8 +1585,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6810d827d51f9414e9d7d6cea9e5b0ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializedData:
-    TestTarget: {fileID: 1047222168}
 --- !u!1 &957461693
 GameObject:
   m_ObjectHideFlags: 0
@@ -2009,7 +2007,6 @@ GameObject:
   - component: {fileID: 1320221124}
   - component: {fileID: 1320221123}
   - component: {fileID: 1320221122}
-  - component: {fileID: 1320221125}
   m_Layer: 0
   m_Name: Cube (11)
   m_TagString: Untagged
@@ -2101,23 +2098,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320221120}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!111 &1320221125
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320221120}
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Animation: {fileID: 7400000, guid: ee0c3676cedcb7d48aa498bfbd2afe99, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: ee0c3676cedcb7d48aa498bfbd2afe99, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 1
-  m_UpdateMode: 0
-  m_CullingType: 0
 --- !u!1 &1321096498
 GameObject:
   m_ObjectHideFlags: 0

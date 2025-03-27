@@ -32,15 +32,10 @@ namespace Runtime.StaticUtils
             return currentCount < count;
         }
 
-        public static void SpawnUnit<TMarker>(GameObject unitPrefab, Stash<TMarker> markerStash, 
-            Stash<HealthComponent> healthStash, Entity[] spawnAreaEntities, 
-            int spawnAreaCount, Stash<SpawnAreaComponent> spawnAreaStash) where TMarker : struct, IComponent
+        public static void SpawnUnit<TMarker>(GameObject unitPrefab, UnitParameters unitParams, SpawnStashes<TMarker> stashes, Entity[] spawnAreaEntities, int spawnAreaCount) where TMarker : struct, IComponent
         {
-            if (unitPrefab == null || spawnAreaCount == 0)
-                return;
-
             var randomIndex = Random.Range(0, spawnAreaCount);
-            ref var spawnArea = ref spawnAreaStash.Get(spawnAreaEntities[randomIndex]);
+            ref var spawnArea = ref stashes.SpawnAreaStash.Get(spawnAreaEntities[randomIndex]);
 
             var randomCircle = Random.insideUnitCircle * spawnArea.Radius;
             var spawnPosition = spawnArea.RootTransform.position + new Vector3(randomCircle.x, 0, randomCircle.y);
@@ -50,8 +45,21 @@ namespace Runtime.StaticUtils
             var entityUnitProvider = spawnedUnit.GetComponent<EntityProvider>();
             var entityUnit = entityUnitProvider.Entity;
 
-            markerStash.Set(entityUnit, new TMarker());
-            healthStash.Set(entityUnit, new HealthComponent { HealthPoints = 100 });
+            stashes.MarkerStash.Set(entityUnit, new TMarker());
+            stashes.HealthStash.Set(entityUnit, new HealthComponent { HealthPoints = unitParams.HealthPoints });
+            stashes.AttackStash.Set(entityUnit, new AttackComponent { Damage = unitParams.Damage, AttackRange = Random.Range(unitParams.AttackRange.x, unitParams.AttackRange.y), 
+                AttackCooldown = Random.Range(unitParams.AttackCooldown.x, unitParams.AttackCooldown.y) });
+            stashes.NavMeshAgentStash.Get(entityUnit).NavMeshAgent.speed = Random.Range(unitParams.Speed.x, unitParams.Speed.y);
+            stashes.NavMeshAgentStash.Get(entityUnit).NavMeshAgent.stoppingDistance = Random.Range(unitParams.AttackRange.x, unitParams.AttackRange.y);
         }
+    }
+
+    public struct SpawnStashes<TMarker> where TMarker : struct, IComponent
+    {
+        public Stash<TMarker> MarkerStash;
+        public Stash<HealthComponent> HealthStash;
+        public Stash<AttackComponent> AttackStash;
+        public Stash<SpawnAreaComponent> SpawnAreaStash;
+        public Stash<NavMeshAgentComponent> NavMeshAgentStash;
     }
 }

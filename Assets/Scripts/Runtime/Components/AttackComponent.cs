@@ -12,5 +12,7 @@ namespace Runtime.Components
         public float Damage;
         public float AttackRange;
         public float AttackAngle;
+        public float AttackCooldown;
+        public float CurrentCooldown;
     }
 }

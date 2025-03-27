@@ -9,6 +9,6 @@ namespace Runtime.Components
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public struct HealthComponent : IComponent
     {
-        public int HealthPoints;
+        public float HealthPoints;
     }
 }

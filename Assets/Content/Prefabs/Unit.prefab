@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     RootTransform: {fileID: 6767866588265746014}
+    RootGameObject: {fileID: 295100277738226733}
     MeshRenderer: {fileID: 1975340122850916748}
     MeshFilter: {fileID: 624319878479889423}
 --- !u!114 &3270489418001925440

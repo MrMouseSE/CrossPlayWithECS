@@ -1,6 +1,7 @@
 using Runtime.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,12 +15,14 @@ namespace Runtime.Systems
         public World World { get; set; }
 
         private Filter _unitFilter;
+        private Filter _testFilter;
         private Stash<NavMeshAgentComponent> _navAgentStash;
         private Stash<TargetComponent> _targetStash;
 
         public void OnAwake()
         {
             _unitFilter = World.Filter.With<NavMeshAgentComponent>().With<TargetComponent>().With<IsNewTargetMarker>().Build();
+            _testFilter = World.Filter.With<NavMeshAgentComponent>().With<TargetComponent>().Build();
 
             _navAgentStash = World.GetStash<NavMeshAgentComponent>();
             _targetStash = World.GetStash<TargetComponent>();
@@ -28,7 +31,7 @@ namespace Runtime.Systems
         public void OnUpdate(float deltaTime)
         {
 #if UNITY_EDITOR
-            foreach (var unitEntity in _unitFilter)
+            foreach (var unitEntity in _testFilter)
             {
                 ref var agentComponent = ref _navAgentStash.Get(unitEntity);
                 DrawPath(agentComponent.NavMeshAgent);

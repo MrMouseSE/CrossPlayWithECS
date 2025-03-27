@@ -11,6 +11,7 @@ namespace Runtime.Components
     public struct UnitComponent : IComponent
     {
         public Transform RootTransform;
+        public GameObject RootGameObject;
         public MeshRenderer MeshRenderer;
         public MeshFilter MeshFilter;
     }
