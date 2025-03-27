@@ -7,5 +7,5 @@ namespace Runtime.Providers
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class GeneralGameDataProvider : MonoProvider<GeneralGameDataComponent> { }
+    public sealed class TargetProvider : MonoProvider<TargetComponent> { }
 }

@@ -17,11 +17,13 @@ namespace Runtime.Systems
 
             var enemySpawnSystem = new EnemySpawnSystem();
             var playerSpawnSystem = new PlayerSpawnSystem();
+            var targetSelectionSystem = new TargetSelectionSystem();
             var pathfindingEnemySystem = new PathfindingEnemySystem();
             var movementSystem = new MovementSystem();
-            
+
             systemsGroup.AddSystem(playerSpawnSystem);
             systemsGroup.AddSystem(enemySpawnSystem);
+            systemsGroup.AddSystem(targetSelectionSystem);
             systemsGroup.AddSystem(pathfindingEnemySystem);
             systemsGroup.AddSystem(movementSystem);
 

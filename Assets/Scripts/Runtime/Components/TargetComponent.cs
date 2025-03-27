@@ -1,6 +1,6 @@
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
-using UnityEngine.AI;
+using UnityEngine;
 
 namespace Runtime.Components
 {
@@ -8,9 +8,10 @@ namespace Runtime.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct NavMeshAgentComponent : IComponent
+    public struct TargetComponent : IComponent
     {
-        public NavMeshAgent NavMeshAgent;
-        public NavMeshPath Path;
+        public Entity TargetEntity;
+        public Vector3 TargetPosition;
+        public Vector3 DirectionToTarget;
     }
 }

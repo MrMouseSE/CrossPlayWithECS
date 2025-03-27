@@ -7,7 +7,7 @@ namespace Runtime.StaticUtils
 {
     public static class SpawnUtils
     {
-        public static void CacheSpawnAreas(Filter spawnAreaFilter, Stash<SpawnAreaComponent> spawnAreaStash, ref Entity[] spawnAreaEntities, ref int spawnAreaCount)
+        public static void CacheSpawnAreas(Filter spawnAreaFilter, ref Entity[] spawnAreaEntities, ref int spawnAreaCount)
         {
             spawnAreaCount = 0;
             spawnAreaEntities = new Entity[16];

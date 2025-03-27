@@ -13,75 +13,37 @@ namespace Runtime.Systems
     {
         public World World { get; set; }
 
-        private Filter _enemyFilter;
-        private Filter _playerFilter;
+        private Filter _unitFilter;
         private Stash<NavMeshAgentComponent> _navAgentStash;
-        private Stash<UnitComponent> _unitStash;
-        
-        private const float StopDistance = 4.0f;
-        private const float PathRecalculationInterval = 2.5f;
-
-        private float _systemUpdateTimer = 0f;
+        private Stash<TargetComponent> _targetStash;
 
         public void OnAwake()
         {
-            _enemyFilter = World.Filter.With<EnemyMarker>().With<UnitComponent>().Build();
-            _playerFilter = World.Filter.With<PlayerMarker>().With<UnitComponent>().Build();
+            _unitFilter = World.Filter.With<NavMeshAgentComponent>().With<TargetComponent>().With<IsNewTargetMarker>().Build();
 
             _navAgentStash = World.GetStash<NavMeshAgentComponent>();
-            _unitStash = World.GetStash<UnitComponent>();
+            _targetStash = World.GetStash<TargetComponent>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            _systemUpdateTimer -= deltaTime;
-            
-            foreach (var enemyEntity in _enemyFilter)
+#if UNITY_EDITOR
+            foreach (var unitEntity in _unitFilter)
             {
-                ref var agentComponent = ref _navAgentStash.Get(enemyEntity);
+                ref var agentComponent = ref _navAgentStash.Get(unitEntity);
                 DrawPath(agentComponent.NavMeshAgent);
-            }
+            }      
+#endif
             
-            if (_systemUpdateTimer > 0)
-                return;
-            
-            _systemUpdateTimer = PathRecalculationInterval;
-            
-            foreach (var enemyEntity in _enemyFilter)
+            foreach (var unitEntity in _unitFilter)
             {
-                ref var agentComponent = ref _navAgentStash.Get(enemyEntity);
-                ref var unitEnemyComponent = ref _unitStash.Get(enemyEntity);
-
-                var bestSqrDistance = float.MaxValue;
-                var targetPosition = Vector3.zero;
-                var currentEnemyPosition = unitEnemyComponent.RootTransform.position;
-
-                foreach (var targetEntity in _playerFilter)
-                {
-                    ref var unitComponent = ref _unitStash.Get(targetEntity);
-                    var targetPos = unitComponent.RootTransform.position;
-                    var sqrDist = (currentEnemyPosition - targetPos).sqrMagnitude;
-                    if (sqrDist < bestSqrDistance)
-                    {
-                        bestSqrDistance = sqrDist;
-                        targetPosition = targetPos;
-                    }
-                }
-
-                if (bestSqrDistance < float.MaxValue)
-                {
-                    var direction = (unitEnemyComponent.RootTransform.position - targetPosition).normalized;
-                    if (direction == Vector3.zero)
-                        direction = Vector3.forward;
-
-                    agentComponent.TargetPosition = targetPosition + direction * StopDistance;
-
-                    var path = new NavMeshPath();
-                    if (agentComponent.NavMeshAgent.CalculatePath(agentComponent.TargetPosition, path))
-                    {
-                        agentComponent.Path = path;
-                    }
-                }
+                ref var agentComponent = ref _navAgentStash.Get(unitEntity);
+                ref var targetComponent = ref _targetStash.Get(unitEntity);
+                
+                var path = new NavMeshPath();
+                var targetPoint = targetComponent.TargetPosition + targetComponent.DirectionToTarget;
+                if (agentComponent.NavMeshAgent.CalculatePath(targetPoint, path)) 
+                    agentComponent.Path = path;
             }
         }
 

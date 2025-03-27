@@ -1,5 +1,4 @@
-﻿using Scellecs.Morpeh.Systems;
-using UnityEngine;
+﻿using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
 [Il2CppSetOption(Option.NullChecks, false)]
@@ -9,12 +8,12 @@ public sealed class #SCRIPTNAME# : ISystem
  {
     public World World { get; set; }
   
-    public override void OnAwake()
+    public void OnAwake()
     {
     
     }
 
-    public override void OnUpdate(float deltaTime) 
+    public void OnUpdate(float deltaTime) 
     {
     
     }

@@ -44,7 +44,7 @@ namespace Runtime.Systems
             var jobHandle = Addressables.LoadAssetAsync<GameObject>("Unit");
             jobHandle.Completed += OnPrefabLoaded;
 
-            SpawnUtils.CacheSpawnAreas(_spawnAreaFilter, _spawnAreaStash, ref _spawnAreaEntities, ref _spawnAreaCount);
+            SpawnUtils.CacheSpawnAreas(_spawnAreaFilter, ref _spawnAreaEntities, ref _spawnAreaCount);
         }
 
         private void OnPrefabLoaded(AsyncOperationHandle<GameObject> obj)

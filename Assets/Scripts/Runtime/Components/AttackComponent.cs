@@ -1,6 +1,5 @@
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
-using UnityEngine;
 
 namespace Runtime.Components
 {
@@ -8,8 +7,10 @@ namespace Runtime.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct GeneralGameDataComponent : IComponent
+    public struct AttackComponent : IComponent
     {
-        public Transform TestTarget;
+        public float Damage;
+        public float AttackRange;
+        public float AttackAngle;
     }
 }

@@ -13,25 +13,26 @@ namespace Runtime.Systems
     {
         public World World { get; set; }
 
-        private Filter _enemyFilter;
+        private Filter _unitFilter;
         private Filter _playerTargetFilter;
         private Stash<NavMeshAgentComponent> _agentStash;
         private Stash<UnitComponent> _unitStash;
-
+        private Stash<IsNewTargetMarker> _isNewTargetStash;
 
         public void OnAwake()
         {
-            _enemyFilter = World.Filter.With<NavMeshAgentComponent>().With<EnemyMarker>().Build();
+            _unitFilter = World.Filter.With<NavMeshAgentComponent>().With<IsNewTargetMarker>().Build();
             _agentStash = World.GetStash<NavMeshAgentComponent>();
+            _isNewTargetStash = World.GetStash<IsNewTargetMarker>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach (var enemyEntity in _enemyFilter)
+            foreach (var unitEntity in _unitFilter)
             {
-                ref var agentComponent = ref _agentStash.Get(enemyEntity);
-                if (agentComponent.Path != null)
-                    agentComponent.NavMeshAgent.SetPath(agentComponent.Path);
+                ref var agentComponent = ref _agentStash.Get(unitEntity);
+                agentComponent.NavMeshAgent.SetPath(agentComponent.Path);
+                _isNewTargetStash.Remove(unitEntity);
             }
         }
 
