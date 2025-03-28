@@ -39,6 +39,7 @@ namespace TetrisMechanics.Scripts.BlockDestroySystem
                     if (blockDestroyComponent.VerticalIndex > destroyComponent.DestroyVerticalIndex)
                     {
                         blockMoveComponent.UpdateBlockPosition(Vector3.down);
+                        blockDestroyComponent.VerticalIndex -= 1;
                         StaticLinesHolder.AddBlockDestroyComponent(blockDestroyComponent);
                     }
                 }
