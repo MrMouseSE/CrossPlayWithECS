@@ -4,6 +4,7 @@ using Runtime.Targeting.Components;
 using Runtime.Unit.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace Runtime.Combat.Systems
 {
@@ -14,42 +15,53 @@ namespace Runtime.Combat.Systems
     {
         public World World { get; set; }
 
-        private Filter _unitFilter;
+        private Filter _attackFilter;
 
-        private Stash<NavMeshAgentComponent> _agentStash;
+
         private Stash<AttackComponent> _attackStash;
         private Stash<TargetComponent> _targetStash;
         private Stash<HealthComponent> _healthStash;
+        private Stash<UnitComponent> _unitStash;
 
         public void OnAwake()
         {
-            _unitFilter = World.Filter.With<NavMeshAgentComponent>().With<AttackComponent>().With<TargetComponent>().Build();
-            _agentStash = World.GetStash<NavMeshAgentComponent>();
+            _attackFilter = World.Filter
+                .With<UnitComponent>()
+                .With<AttackComponent>()
+                .With<HealthComponent>()
+                .With<TargetComponent>()
+                .Build();
+
+
             _attackStash = World.GetStash<AttackComponent>();
             _targetStash = World.GetStash<TargetComponent>();
             _healthStash = World.GetStash<HealthComponent>();
+            _unitStash = World.GetStash<UnitComponent>();
         }
 
         public void OnUpdate(float deltaTime)
         {
-            foreach (var unitEntity in _unitFilter)
+            foreach (var unitEntity in _attackFilter)
             {
-                ref var agentComponent = ref _agentStash.Get(unitEntity);
                 ref var attackComponent = ref _attackStash.Get(unitEntity);
                 ref var targetComponent = ref _targetStash.Get(unitEntity);
+                ref var unitComponent = ref _unitStash.Get(unitEntity);
 
                 attackComponent.CurrentCooldown -= deltaTime;
-                if (agentComponent.NavMeshAgent.remainingDistance < agentComponent.NavMeshAgent.stoppingDistance && targetComponent.TargetEntity != default)
+
+                if (targetComponent.TargetEntity != default && !World.IsDisposed(targetComponent.TargetEntity))
                 {
-                    if (attackComponent.CurrentCooldown <= 0)
+                    var unitPosition = unitComponent.RootTransform.position;
+                    var targetPosition = targetComponent.TargetPosition;
+
+                    var sqrDistanceToTarget = (unitPosition - targetPosition).sqrMagnitude;
+                    var attackRangeSqr = attackComponent.AttackRange * attackComponent.AttackRange;
+
+                    if (sqrDistanceToTarget <= attackRangeSqr && attackComponent.CurrentCooldown <= 0)
                     {
-                        bool isDisposed = World.IsDisposed(targetComponent.TargetEntity);
-                        if (!isDisposed)
-                        {
-                            ref var healthComponent = ref _healthStash.Get(targetComponent.TargetEntity);
-                            healthComponent.HealthPoints -= attackComponent.Damage;
-                            attackComponent.CurrentCooldown = attackComponent.AttackCooldown;   
-                        }
+                        ref var targetHealthComponent = ref _healthStash.Get(targetComponent.TargetEntity);
+                        targetHealthComponent.HealthPoints -= attackComponent.Damage;
+                        attackComponent.CurrentCooldown = attackComponent.AttackCooldown;
                     }
                 }
             }

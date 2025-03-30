@@ -11,16 +11,19 @@ namespace Runtime.Combat.Systems
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     public sealed class DeathSystem : ISystem
     {
-        public World World { get; set; }
+       public World World { get; set; }
 
         private Filter _healthPlayerFilter;
         private Filter _healthEnemyFilter;
-        
+
         private Stash<HealthComponent> _healthStash;
         private Stash<UnitComponent> _unitStash;
         private Stash<EnemyUnitCount> _enemyUnitCountStash;
         private Stash<PlayerUnitCount> _playerUnitCountStash;
-        
+
+        private Stash<AssignedDefensePoint> _assignedPointStash;
+        private Stash<IsOccupied> _isOccupiedStash;
+
         private Entity _enemyUnitCountEntity;
         private Entity _playerUnitCountEntity;
 
@@ -28,24 +31,22 @@ namespace Runtime.Combat.Systems
         {
             _healthPlayerFilter = World.Filter.With<HealthComponent>().With<PlayerMarker>().Build();
             _healthEnemyFilter = World.Filter.With<HealthComponent>().With<EnemyMarker>().Build();
-            
-            _enemyUnitCountEntity =  World.Filter.With<EnemyUnitCount>().Build().First();
-            _playerUnitCountEntity =  World.Filter.With<PlayerUnitCount>().Build().First();
-            
-            
+            _enemyUnitCountEntity = World.Filter.With<EnemyUnitCount>().Build().First();
+            _playerUnitCountEntity = World.Filter.With<PlayerUnitCount>().Build().First();
+
             _healthStash = World.GetStash<HealthComponent>();
             _unitStash = World.GetStash<UnitComponent>();
-            
             _enemyUnitCountStash = World.GetStash<EnemyUnitCount>();
             _playerUnitCountStash = World.GetStash<PlayerUnitCount>();
-            
+            _assignedPointStash = World.GetStash<AssignedDefensePoint>();
+            _isOccupiedStash = World.GetStash<IsOccupied>();
         }
 
         public void OnUpdate(float deltaTime)
         {
             foreach (var healthEntity in _healthPlayerFilter)
             {
-                if (IsDeath(healthEntity))
+                if (IsDeath(healthEntity, true))
                 {
                     ref var countUnit = ref _playerUnitCountStash.Get(_playerUnitCountEntity);
                     countUnit.Count--;
@@ -54,28 +55,38 @@ namespace Runtime.Combat.Systems
             
             foreach (var healthEntity in _healthEnemyFilter)
             {
-                if (IsDeath(healthEntity))
+                if (IsDeath(healthEntity, false))
                 {
                     ref var countUnit = ref _enemyUnitCountStash.Get(_enemyUnitCountEntity);
                     countUnit.Count--;
                 }
             }
         }
-
-        private bool IsDeath(Entity healthEntity)
+        
+        private bool IsDeath(Entity healthEntity, bool isPlayer)
         {
             ref var health = ref _healthStash.Get(healthEntity);
             if (health.HealthPoints <= 0)
             {
-                ref var unit = ref _unitStash.Get(healthEntity);
-                Object.Destroy(unit.RootGameObject);
+                if (isPlayer)
+                {
+                    ref var assignedPoint = ref _assignedPointStash.Get(healthEntity);
+                    if (!World.IsDisposed(assignedPoint.TargetPointEntity) && _isOccupiedStash.Has(assignedPoint.TargetPointEntity))
+                    {
+                        _isOccupiedStash.Remove(assignedPoint.TargetPointEntity);
+                    }
+                }
+                
+                if (_unitStash.Has(healthEntity)) 
+                {
+                     ref var unit = ref _unitStash.Get(healthEntity);
+                     Object.Destroy(unit.RootGameObject);
+                }
                 World.RemoveEntity(healthEntity);
-                return true; 
+                return true;
             }
-
             return false;
         }
-
         public void Dispose() { }
     }
 }

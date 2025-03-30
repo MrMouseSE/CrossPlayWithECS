@@ -53,7 +53,7 @@ namespace Runtime.Spawning.Utils
             stashes.AttackStash.Set(entityUnit, new AttackComponent { Damage = unitParams.Damage, AttackRange = Random.Range(unitParams.AttackRange.x, unitParams.AttackRange.y), 
                 AttackCooldown = Random.Range(unitParams.AttackCooldown.x, unitParams.AttackCooldown.y) });
             stashes.NavMeshAgentStash.Get(entityUnit).NavMeshAgent.speed = Random.Range(unitParams.Speed.x, unitParams.Speed.y);
-            stashes.NavMeshAgentStash.Get(entityUnit).NavMeshAgent.stoppingDistance = Random.Range(unitParams.AttackRange.x, unitParams.AttackRange.y);
+            stashes.NavMeshAgentStash.Get(entityUnit).StoppingDistance = Random.Range(unitParams.StoppingDistance.x, unitParams.StoppingDistance.y);
         }
     }
 

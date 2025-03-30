@@ -3,6 +3,7 @@ using Runtime.Targeting.Components;
 using Runtime.Unit.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace Runtime.Movement.Systems
 {
@@ -30,7 +31,9 @@ namespace Runtime.Movement.Systems
         {
             foreach (var unitEntity in _unitFilter)
             {
+                Debug.Log("MovementSystem: " + unitEntity.Id);
                 ref var agentComponent = ref _agentStash.Get(unitEntity);
+                if (agentComponent.Path == null) continue;
                 agentComponent.NavMeshAgent.SetPath(agentComponent.Path);
                 _isNewTargetStash.Remove(unitEntity);
             }

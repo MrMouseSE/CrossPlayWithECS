@@ -22,7 +22,7 @@ namespace Runtime.Spawning.Systems
         {
             _enemyUnitCountEntity = World.CreateEntity();
             _enemyUnitCountStash = World.GetStash<EnemyUnitCount>();
-            _enemyUnitCountStash.Set(_enemyUnitCountEntity, new EnemyUnitCount() { Count = 10 });
+            _enemyUnitCountStash.Set(_enemyUnitCountEntity, new EnemyUnitCount { Count = 5 });
             
             _playerUnitCountEntity = World.CreateEntity();
             _playerUnitCountStash = World.GetStash<PlayerUnitCount>();
@@ -30,13 +30,8 @@ namespace Runtime.Spawning.Systems
 
         }
 
-        public void OnUpdate(float deltaTime)
-        {
-           
-        }
+        public void OnUpdate(float deltaTime) { }
 
-        public void Dispose()
-        {
-        }
+        public void Dispose() { }
     }
 }

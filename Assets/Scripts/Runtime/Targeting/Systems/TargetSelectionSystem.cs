@@ -1,3 +1,4 @@
+using Runtime.Combat.Components;
 using Runtime.Targeting.Components;
 using Runtime.Unit.Components;
 using Scellecs.Morpeh;
@@ -15,63 +16,90 @@ namespace Runtime.Targeting.Systems
 
         private Filter _unitEnemyFilter;
         private Filter _unitPlayerFilter;
-        
+
         private Stash<UnitComponent> _unitStash;
         private Stash<TargetComponent> _targetStash;
         private Stash<IsNewTargetMarker> _isNewTargetMarkerStash;
         
         private float _systemUpdateTimer = 0f;
-        private const float RecalculationInterval = 1.0f;
-        private const float PositionEpsilon = 0.1f;
-        
+        private const float RecalculationInterval = 0.5f;
+        private const float PositionEpsilonSqr = 0.1f * 0.1f;
+
         public void OnAwake()
         {
-            _unitEnemyFilter = World.Filter.With<UnitComponent>().With<EnemyMarker>().Build();
-            _unitPlayerFilter = World.Filter.With<UnitComponent>().With<PlayerMarker>().Build();
-            
+            _unitEnemyFilter = World.Filter.With<UnitComponent>().With<EnemyMarker>().With<HealthComponent>().Build();
+            _unitPlayerFilter = World.Filter.With<UnitComponent>().With<PlayerMarker>().With<HealthComponent>().Build();
+
             _unitStash = World.GetStash<UnitComponent>();
             _targetStash = World.GetStash<TargetComponent>();
             _isNewTargetMarkerStash = World.GetStash<IsNewTargetMarker>();
         }
 
-        public void OnUpdate(float deltaTime) 
+        public void OnUpdate(float deltaTime)
         {
             _systemUpdateTimer -= deltaTime;
             if (_systemUpdateTimer > 0) return;
             _systemUpdateTimer = RecalculationInterval;
-            
+
+            SelectTargetsForEnemies();
+            SelectTargetsForPlayers();
+        }
+
+        private void SelectTargetsForEnemies()
+        {
             foreach (var enemyEntity in _unitEnemyFilter)
             {
-                ref var enemyUnit = ref _unitStash.Get(enemyEntity);
-                ref var target = ref _targetStash.Get(enemyEntity);
-
-                var bestDistance = float.MaxValue;
-                var targetPosition = Vector3.zero;
-                Entity entityTarget = default;
-                var currentEnemyPosition = enemyUnit.RootTransform.position;
-                
-                foreach (var unitPlayerEntity in _unitPlayerFilter)
-                {
-                    ref var unitComponent = ref _unitStash.Get(unitPlayerEntity);
-                    var targetPos = unitComponent.RootTransform.position;
-                    var sqrDist = (currentEnemyPosition - targetPos).sqrMagnitude;
-                    if (sqrDist < bestDistance)
-                    {
-                        bestDistance = sqrDist;
-                        targetPosition = targetPos;
-                        entityTarget = unitPlayerEntity;
-                    }
-                }
-                if (bestDistance < float.MaxValue && (target.TargetPosition - targetPosition).sqrMagnitude > PositionEpsilon)
-                {
-                    target.TargetPosition = targetPosition;
-                    target.TargetEntity = entityTarget;
-                    _isNewTargetMarkerStash.Set(enemyEntity, new IsNewTargetMarker());
-                }
+                FindAndAssignNearestTarget(enemyEntity, _unitPlayerFilter);
             }
         }
-        
-      
-        public void Dispose(){}
+
+        private void SelectTargetsForPlayers()
+        {
+            foreach (var playerEntity in _unitPlayerFilter)
+            {
+                FindAndAssignNearestTarget(playerEntity, _unitEnemyFilter);
+            }
+        }
+
+        private void FindAndAssignNearestTarget(Entity searchingUnitEntity, Filter potentialTargetsFilter)
+        {
+            ref var searchingUnit = ref _unitStash.Get(searchingUnitEntity);
+            var currentUnitPosition = searchingUnit.RootTransform.position;
+
+            Entity bestTargetEntity = default;
+            var bestTargetPosition = Vector3.zero;
+            var bestSqrDistance = float.MaxValue;
+
+
+            foreach (var potentialTargetEntity in potentialTargetsFilter)
+            {
+                ref var targetUnitComponent = ref _unitStash.Get(potentialTargetEntity);
+                var targetPos = targetUnitComponent.RootTransform.position;
+                var sqrDist = (currentUnitPosition - targetPos).sqrMagnitude;
+                
+                if (sqrDist < bestSqrDistance)
+                {
+                    bestSqrDistance = sqrDist;
+                    bestTargetPosition = targetPos;
+                    bestTargetEntity = potentialTargetEntity;
+                    Debug.Log($"Unit {searchingUnitEntity.Id} found potential target {potentialTargetEntity.Id} at dist^2 {sqrDist}");
+                }
+            }
+            
+            ref var target = ref _targetStash.Get(searchingUnitEntity);
+            
+            if (target.TargetEntity != bestTargetEntity || (target.TargetPosition - bestTargetPosition).sqrMagnitude > PositionEpsilonSqr)
+            {
+                target.TargetEntity = bestTargetEntity;
+                target.TargetPosition = bestTargetPosition;
+                target.DirectionToTarget = (bestTargetPosition - currentUnitPosition).normalized;
+                if (target.DirectionToTarget == Vector3.zero)
+                    target.DirectionToTarget = searchingUnit.RootTransform.forward;
+                
+                _isNewTargetMarkerStash.Set(searchingUnitEntity);
+            }
+        }
+
+        public void Dispose() { }
     }
 }

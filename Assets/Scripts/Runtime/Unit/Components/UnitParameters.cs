@@ -11,5 +11,6 @@ namespace Runtime.Unit.Components
         public int HealthPoints;
         public float2 AttackCooldown;
         public float2 Speed;
+        public float2 StoppingDistance;
     }
 }

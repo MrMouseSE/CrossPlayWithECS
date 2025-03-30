@@ -1,11 +1,16 @@
+// В файле Startup.cs
+
+// ... (using statements) ...
+
 using Runtime.Combat.Systems;
 using Runtime.Movement.Systems;
 using Runtime.Spawning.Systems;
 using Runtime.Targeting.Systems;
+using Runtime.Unit.Systems;
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace Runtime.Core.Systems
+namespace Runtime.Core.Systems // или Runtime.Core.Systems
 {
     public class Startup : MonoBehaviour
     {
@@ -14,28 +19,25 @@ namespace Runtime.Core.Systems
         private void Start()
         {
             _world = World.Default;
-
             var systemsGroup = _world.CreateSystemsGroup();
+           
+            systemsGroup.AddSystem(new PopulationControlSystem());
+            systemsGroup.AddSystem(new PlayerSpawnSystem());
+            systemsGroup.AddSystem(new EnemySpawnSystem());
+            
+            systemsGroup.AddSystem(new DefensePointAssignmentSystem());
+            systemsGroup.AddSystem(new TargetSelectionSystem());
+            
+            systemsGroup.AddSystem(new PathfindingFriendlySystem());
+            systemsGroup.AddSystem(new PathfindingTargetSystem()); 
+           
+             systemsGroup.AddSystem(new MovementSystem());
+             systemsGroup.AddSystem(new FriendlyArrivalSystem());
 
-            var enemySpawnSystem = new EnemySpawnSystem();
-            var playerSpawnSystem = new PlayerSpawnSystem();
-            var targetSelectionSystem = new TargetSelectionSystem();
-            var pathfindingEnemySystem = new PathfindingEnemySystem();
-            var movementSystem = new MovementSystem();
-            var populationControlSystem = new PopulationControlSystem();
-            var attackSystem = new AttackSystem();
-            var deathSystem = new DeathSystem();
+            
+            systemsGroup.AddSystem(new AttackSystem());
+            systemsGroup.AddSystem(new DeathSystem());
 
-            systemsGroup.AddSystem(populationControlSystem);
-            systemsGroup.AddSystem(playerSpawnSystem);
-            systemsGroup.AddSystem(enemySpawnSystem);
-            systemsGroup.AddSystem(targetSelectionSystem);
-            systemsGroup.AddSystem(pathfindingEnemySystem);
-            systemsGroup.AddSystem(movementSystem);
-            systemsGroup.AddSystem(attackSystem);
-            systemsGroup.AddSystem(deathSystem);
-
-            //systemsGroup.Initialize();
             _world.AddSystemsGroup(order: 0, systemsGroup);
             _world.Commit();
         }

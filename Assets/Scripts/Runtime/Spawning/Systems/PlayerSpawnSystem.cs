@@ -44,7 +44,7 @@ namespace Runtime.Spawning.Systems
             _attackStash = World.GetStash<AttackComponent>();
             _navMeshAgentStash = World.GetStash<NavMeshAgentComponent>();
 
-            _playerFilter = World.Filter.With<PlayerMarker>().With<UnitComponent>().Build();
+            _playerFilter = World.Filter.With<PlayerMarker>().With<UnitComponent>().With<NavMeshAgentComponent>().Build();
             _spawnAreaFilter = World.Filter.With<SpawnAreaComponent>().With<PlayerMarker>().Build();
             
             var jobHandle = Addressables.LoadAssetAsync<GameObject>("Unit");

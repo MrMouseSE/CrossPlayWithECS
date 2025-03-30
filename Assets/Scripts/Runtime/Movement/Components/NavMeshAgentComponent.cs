@@ -12,5 +12,6 @@ namespace Runtime.Movement.Components
     {
         public NavMeshAgent NavMeshAgent;
         public NavMeshPath Path;
+        public float StoppingDistance;
     }
 }
