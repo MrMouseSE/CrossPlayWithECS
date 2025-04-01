@@ -29,18 +29,17 @@ namespace TetrisMechanics.Scripts.BlockDestroySystem
 
                 destroyComponent.TimeToMove -= deltaTime;
                 if (!(destroyComponent.TimeToMove <= 0)) continue;
-                var blockMoveComponentFilter = World.Filter.With<BlockMoveComponent>().Build();
-                var blockMoveStash = World.GetStash<BlockMoveComponent>();
+                var blockMoveComponentFilter = World.Filter.With<LandedCheckComponent>().With<BlockDestroyComponent>().Build();
                 var blockDestroyStash = World.GetStash<BlockDestroyComponent>();
+                var landedStash = World.GetStash<LandedCheckComponent>();
                 foreach (var entityToMove in blockMoveComponentFilter)
                 {
-                    ref var blockMoveComponent = ref blockMoveStash.Get(entityToMove);
+                    ref var landedComponent = ref landedStash.Get(entityToMove);
                     ref var blockDestroyComponent = ref blockDestroyStash.Get(entityToMove);
                     if (blockDestroyComponent.VerticalIndex > destroyComponent.DestroyVerticalIndex)
                     {
-                        blockMoveComponent.UpdateBlockPosition(Vector3.down);
-                        blockDestroyComponent.VerticalIndex -= 1;
-                        StaticLinesHolder.AddBlockDestroyComponent(blockDestroyComponent);
+                        landedComponent.SetLandedDirectly(false);
+                        StaticLinesHolder.RemoveBlockDestroyComponent(landedComponent.BlockTransform);
                     }
                 }
                 _moveAfterDestroyStash.Remove(entity);

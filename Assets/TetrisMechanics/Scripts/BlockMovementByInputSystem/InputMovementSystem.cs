@@ -1,6 +1,7 @@
 using Scellecs.Morpeh;
 using TetrisMechanics.Scripts.BlockSystem;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine;
 
 namespace TetrisMechanics.Scripts.BlockMovementByInputSystem
 {
@@ -24,7 +25,6 @@ namespace TetrisMechanics.Scripts.BlockMovementByInputSystem
             Stash<CurrentSelectedComponent> currentSelectedStash = World.GetStash<CurrentSelectedComponent>();
             Filter inputFilter = World.Filter.With<InputHolderComponent>().Build();
             Stash<InputHolderComponent> inputHolderStash = World.GetStash<InputHolderComponent>();
-            
 
             foreach (var entity in currentSelectionFilter)
             {
@@ -34,6 +34,26 @@ namespace TetrisMechanics.Scripts.BlockMovementByInputSystem
                 currentMoveComponent.UpdateBlockPosition(holder.HorizontalMovementDirection);
                 currentMoveComponent.UpdateBlockPosition(holder.VerticalMovementDirection);
                 currentMoveComponent.UpdatePositionByRotation(currentSelectedComponent.RotateTransform.position, holder.GetBlockRotation());
+            }
+            
+            bool isBlockIntersectLanding = false;
+
+            foreach (var entity in currentSelectionFilter)
+            {
+                ref var currentMoveComponent = ref currentMoveStash.Get(entity);
+                isBlockIntersectLanding |= StaticLinesHolder.CheckCellForOccupied(currentMoveComponent.BlockTransform);
+            }
+
+            if (!isBlockIntersectLanding) return;
+            
+            foreach (var entity in currentSelectionFilter)
+            {
+                ref var currentMoveComponent = ref currentMoveStash.Get(entity);
+                ref var currentSelectedComponent = ref currentSelectedStash.Get(entity);
+                ref var holder = ref inputHolderStash.Get(inputFilter.First());
+                currentMoveComponent.UpdateBlockPosition(-holder.HorizontalMovementDirection);
+                currentMoveComponent.UpdateBlockPosition(-holder.VerticalMovementDirection);
+                currentMoveComponent.UpdatePositionByRotation(currentSelectedComponent.RotateTransform.position, Quaternion.Inverse(holder.GetBlockRotation()));
             }
         }
 

@@ -22,11 +22,9 @@ namespace TetrisMechanics.Scripts.BlockSystem
             return IsLanded;
         }
         
-        public bool CheckForLandedOnAnotherBlock(LandedCheckComponent anotherComponent)
+        public bool CheckForLandedOnAnotherBlock()
         {
-            if(!anotherComponent.IsLanded) return IsLanded;
-            IsLanded |= Mathf.Approximately(anotherComponent.BlockTransform.position.x, BlockTransform.position.x)
-             && Mathf.Approximately(anotherComponent.BlockTransform.position.y, BlockTransform.position.y-1);
+            IsLanded |= StaticLinesHolder.CheckDownCellForOccupied(BlockTransform);
             
             return IsLanded;
         }

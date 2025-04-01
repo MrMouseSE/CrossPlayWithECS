@@ -21,7 +21,6 @@ namespace TetrisMechanics.Scripts.BlockMovementByInputSystem
         {
             Filter currentSelectionFilter = World.Filter.With<CurrentSelectedComponent>().With<BlockMoveComponent>().Build();
             if (currentSelectionFilter.IsEmpty()) return;
-            Stash<CurrentSelectedComponent> currentSelectedStash = World.GetStash<CurrentSelectedComponent>();
             Stash<BlockMoveComponent> currentMoveStash = World.GetStash<BlockMoveComponent>();
             Filter spawnFilter = World.Filter.With<SpawnComponent>().Build();
             Stash<SpawnComponent> spawnStash = World.GetStash<SpawnComponent>();

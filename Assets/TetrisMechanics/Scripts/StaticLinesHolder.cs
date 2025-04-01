@@ -1,12 +1,12 @@
-using System;
 using System.Collections.Generic;
 using TetrisMechanics.Scripts.BlockDestroySystem;
+using UnityEngine;
 
 namespace TetrisMechanics.Scripts
 {
     public static class StaticLinesHolder
     {
-        private static BlockContainerMono[][] _blockDestroyComponents = new BlockContainerMono[21][];
+        private static BlockContainerMono[][] _blockDestroyComponents = new BlockContainerMono[25][];
 
         public static void InitLines()
         {
@@ -47,6 +47,42 @@ namespace TetrisMechanics.Scripts
             {
                 _blockDestroyComponents[index][i] = null;
             }
+        }
+
+        public static bool CheckCellForOccupied(Transform blockTransform)
+        {
+            int verticalIndex = Mathf.RoundToInt(blockTransform.position.y);
+            int horizontalIndex = Mathf.RoundToInt(blockTransform.position.x);
+            return _blockDestroyComponents[verticalIndex][horizontalIndex] != null;
+        }
+
+        public static bool CheckDownCellForOccupied(Transform blockTransform)
+        {
+            int verticalIndex = Mathf.RoundToInt(blockTransform.position.y);
+            int horizontalIndex = Mathf.RoundToInt(blockTransform.position.x);
+            return _blockDestroyComponents[verticalIndex-1][horizontalIndex] != null;
+        }
+
+        public static float FindBlockBelowThis(Transform blockTransform)
+        {
+            int verticalIndex = Mathf.RoundToInt(blockTransform.position.y);
+            int horizontalIndex = Mathf.RoundToInt(blockTransform.position.x);
+            int verticalOffset = verticalIndex;
+            for (int index = 0; index < verticalIndex; index++)
+            {
+                if (_blockDestroyComponents[index][horizontalIndex] != null && (verticalOffset - index) < verticalOffset)
+                {
+                    verticalOffset = index;
+                }
+            }
+            return verticalOffset;
+        }
+
+        public static void RemoveBlockDestroyComponent(Transform blockTransform)
+        {
+            int verticalIndex = Mathf.RoundToInt(blockTransform.position.y);
+            int horizontalIndex = Mathf.RoundToInt(blockTransform.position.x);
+            _blockDestroyComponents[verticalIndex][horizontalIndex] = null;
         }
     }
 }

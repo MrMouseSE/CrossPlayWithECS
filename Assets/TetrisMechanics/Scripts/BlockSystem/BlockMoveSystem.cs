@@ -32,7 +32,7 @@ namespace TetrisMechanics.Scripts.BlockSystem
                 ref var moveBlockComponent = ref _moveBlockStash.Get(entity);
                 ref var stepAwaiterComponent = ref _stepAwaiterStash.Get(entity);
                 ref var landingCheckComponent = ref _landingCheckStash.Get(entity);
-                if (!stepAwaiterComponent.UpdateTimeAndCheckReadyForEvaluate(deltaTime)) continue;
+                if (!stepAwaiterComponent.UpdateTimeAndCheckReadyForEvaluate(deltaTime*4)) continue;
                 if (!landingCheckComponent.IsLanded) moveBlockComponent.UpdateBlockPosition(Vector3.down);
             }
         }

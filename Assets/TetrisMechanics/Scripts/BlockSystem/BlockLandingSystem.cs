@@ -33,23 +33,15 @@ namespace TetrisMechanics.Scripts.BlockSystem
             foreach (var entity in _filter)
             {
                 ref var landingCheckComponent = ref _landedCheckStash.Get(entity);
-                if (landingCheckComponent.CheckForLanded())
+                if (landingCheckComponent.CheckForLanded() || landingCheckComponent.CheckForLandedOnAnotherBlock())
                 {
-                    return;
-                }
-                    
-                foreach (var blockEntity in _filter)
-                {
-                    ref var blockComponent = ref _landedCheckStash.Get(blockEntity);
-                    if (entity.Id == blockEntity.Id)
-                    {
-                        landedNow = landingCheckComponent.CheckForLandedOnAnotherBlock(blockComponent);
-                    }
+                    SetLandedDirectly();
                 }
             }
-            
-            if (!landedNow) return;
-            
+        }
+
+        private void SetLandedDirectly()
+        {
             foreach (var entity in _filter)
             {
                 ref var landingCheckComponent = ref _landedCheckStash.Get(entity);
