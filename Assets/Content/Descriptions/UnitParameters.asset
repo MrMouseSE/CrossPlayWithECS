@@ -12,17 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0739a9347b99df44eb2a580ecff5297a, type: 3}
   m_Name: UnitParameters
   m_EditorClassIdentifier: 
-  Damage: 25
+  Damage:
+    x: 20
+    y: 30
   AttackRange:
-    x: 4
-    y: 6
-  HealthPoints: 100
+    x: 8
+    y: 15
+  HealthPoints:
+    x: 100
+    y: 125
   AttackCooldown:
     x: 1.5
     y: 2
   Speed:
-    x: 3.5
-    y: 5
+    x: 2
+    y: 3
   StoppingDistance:
-    x: 3
-    y: 6
+    x: 7
+    y: 10

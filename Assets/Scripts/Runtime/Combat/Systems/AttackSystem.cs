@@ -16,8 +16,7 @@ namespace Runtime.Combat.Systems
         public World World { get; set; }
 
         private Filter _attackFilter;
-
-
+        
         private Stash<AttackComponent> _attackStash;
         private Stash<TargetComponent> _targetStash;
         private Stash<HealthComponent> _healthStash;

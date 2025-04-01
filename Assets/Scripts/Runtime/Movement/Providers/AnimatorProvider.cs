@@ -1,13 +1,11 @@
 using Runtime.Movement.Components;
 using Scellecs.Morpeh.Providers;
 using Unity.IL2CPP.CompilerServices;
-using UnityEditor;
-using UnityEngine.AI;
 
 namespace Runtime.Movement.Providers
 {
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public sealed class NavMeshAgentProvider : MonoProvider<NavMeshAgentComponent> { }
+    public sealed class AnimatorProvider : MonoProvider<AnimatorComponent> { }
 }

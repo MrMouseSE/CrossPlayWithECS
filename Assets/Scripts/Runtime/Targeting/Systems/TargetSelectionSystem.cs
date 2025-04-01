@@ -1,4 +1,3 @@
-using Runtime.Combat.Components;
 using Runtime.Targeting.Components;
 using Runtime.Unit.Components;
 using Scellecs.Morpeh;
@@ -82,7 +81,6 @@ namespace Runtime.Targeting.Systems
                     bestSqrDistance = sqrDist;
                     bestTargetPosition = targetPos;
                     bestTargetEntity = potentialTargetEntity;
-                    Debug.Log($"Unit {searchingUnitEntity.Id} found potential target {potentialTargetEntity.Id} at dist^2 {sqrDist}");
                 }
             }
             

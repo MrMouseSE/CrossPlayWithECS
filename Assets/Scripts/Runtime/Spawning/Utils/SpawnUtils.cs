@@ -49,8 +49,8 @@ namespace Runtime.Spawning.Utils
             var entityUnit = entityUnitProvider.Entity;
 
             stashes.MarkerStash.Set(entityUnit, new TMarker());
-            stashes.HealthStash.Set(entityUnit, new HealthComponent { HealthPoints = unitParams.HealthPoints });
-            stashes.AttackStash.Set(entityUnit, new AttackComponent { Damage = unitParams.Damage, AttackRange = Random.Range(unitParams.AttackRange.x, unitParams.AttackRange.y), 
+            stashes.HealthStash.Set(entityUnit, new HealthComponent { HealthPoints = Random.Range(unitParams.HealthPoints.x, unitParams.HealthPoints.y) });
+            stashes.AttackStash.Set(entityUnit, new AttackComponent { Damage = Random.Range(unitParams.Damage.x, unitParams.Damage.y), AttackRange = Random.Range(unitParams.AttackRange.x, unitParams.AttackRange.y), 
                 AttackCooldown = Random.Range(unitParams.AttackCooldown.x, unitParams.AttackCooldown.y) });
             stashes.NavMeshAgentStash.Get(entityUnit).NavMeshAgent.speed = Random.Range(unitParams.Speed.x, unitParams.Speed.y);
             stashes.NavMeshAgentStash.Get(entityUnit).StoppingDistance = Random.Range(unitParams.StoppingDistance.x, unitParams.StoppingDistance.y);
