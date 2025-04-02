@@ -25,7 +25,10 @@ namespace TetrisMechanics.Scripts.BlockDestroySystem
             foreach (var entity in _filter)
             {
                 ref var destroyComponent = ref _destroyComponentStash.Get(entity);
-                if (destroyComponent.ShouldBeDestroyed || destroyComponent.IsInDestruction) destroyComponent.Destroy(deltaTime);
+                if (destroyComponent.ShouldBeDestroyed || destroyComponent.IsInDestruction)
+                {
+                    destroyComponent.Destroy(deltaTime);
+                }
             }
         }
         

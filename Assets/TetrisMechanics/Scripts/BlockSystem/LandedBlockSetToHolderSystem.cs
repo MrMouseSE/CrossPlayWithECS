@@ -1,5 +1,6 @@
 using Scellecs.Morpeh;
 using TetrisMechanics.Scripts.BlockDestroySystem;
+using TetrisMechanics.Scripts.BlockMovementByInputSystem;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ namespace TetrisMechanics.Scripts.BlockSystem
     
         public void OnUpdate(float deltaTime)
         {
-            _filter = World.Filter.With<LandedCheckComponent>().Build();
+            _filter = World.Filter.With<LandedCheckComponent>().With<CurrentSelectedComponent>().Build();
             _landedStash = World.GetStash<LandedCheckComponent>();
             _destroyStash = World.GetStash<BlockDestroyComponent>();
 

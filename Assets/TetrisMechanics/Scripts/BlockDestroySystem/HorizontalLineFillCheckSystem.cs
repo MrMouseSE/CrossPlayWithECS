@@ -36,8 +36,8 @@ namespace TetrisMechanics.Scripts.BlockDestroySystem
                 var newMoveBlockAfterDestroyEntity = World.CreateEntity();
                 var moveAfterDestroyStash = World.GetStash<MoveBlockAfterDestroyComponent>();
                 moveAfterDestroyStash.Set(newMoveBlockAfterDestroyEntity,
-                    new MoveBlockAfterDestroyComponent { TimeToMove = 1.2f, DestroyVerticalIndex = index });
-                StaticLinesHolder.ClearLine(index);
+                    new MoveBlockAfterDestroyComponent { TimeToMove = 1.2f, DestroyVerticalIndex = fullLines[index] });
+                StaticLinesHolder.ClearLine(fullLines[index]);
             }
         }
     

@@ -8,6 +8,11 @@ namespace TetrisMechanics.Scripts
     {
         private static BlockContainerMono[][] _blockDestroyComponents = new BlockContainerMono[25][];
 
+        public static BlockContainerMono[][] GetCellsHolder()
+        {
+            return _blockDestroyComponents;
+        }
+
         public static void InitLines()
         {
             for (var index = 0; index < _blockDestroyComponents.Length; index++)

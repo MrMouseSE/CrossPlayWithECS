@@ -1,4 +1,5 @@
 using Scellecs.Morpeh;
+using TetrisMechanics.Scripts.BlockMovementByInputSystem;
 using TetrisMechanics.Scripts.BlockSystem;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace TetrisMechanics.Scripts.BlockDestroySystem
 
                 destroyComponent.TimeToMove -= deltaTime;
                 if (!(destroyComponent.TimeToMove <= 0)) continue;
-                var blockMoveComponentFilter = World.Filter.With<LandedCheckComponent>().With<BlockDestroyComponent>().Build();
+                var blockMoveComponentFilter = World.Filter.With<LandedCheckComponent>().With<BlockDestroyComponent>().Without<CurrentSelectedComponent>().Build();
                 var blockDestroyStash = World.GetStash<BlockDestroyComponent>();
                 var landedStash = World.GetStash<LandedCheckComponent>();
                 foreach (var entityToMove in blockMoveComponentFilter)
@@ -38,11 +39,13 @@ namespace TetrisMechanics.Scripts.BlockDestroySystem
                     ref var blockDestroyComponent = ref blockDestroyStash.Get(entityToMove);
                     if (blockDestroyComponent.VerticalIndex > destroyComponent.DestroyVerticalIndex)
                     {
-                        landedComponent.SetLandedDirectly(false);
                         StaticLinesHolder.RemoveBlockDestroyComponent(landedComponent.BlockTransform);
+                        landedComponent.BlockTransform.Translate(Vector3.down);
+                        blockDestroyComponent.VerticalIndex -= 1;
+                        StaticLinesHolder.AddBlockDestroyComponent(blockDestroyComponent);
                     }
                 }
-                _moveAfterDestroyStash.Remove(entity);
+                World.RemoveEntity(entity);
             }
         }
 
