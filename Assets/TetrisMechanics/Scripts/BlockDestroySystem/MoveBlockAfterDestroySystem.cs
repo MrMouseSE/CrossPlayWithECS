@@ -40,8 +40,8 @@ namespace TetrisMechanics.Scripts.BlockDestroySystem
                     if (blockDestroyComponent.VerticalIndex > destroyComponent.DestroyVerticalIndex)
                     {
                         StaticLinesHolder.RemoveBlockDestroyComponent(landedComponent.BlockTransform);
-                        landedComponent.BlockTransform.Translate(Vector3.down);
-                        blockDestroyComponent.VerticalIndex -= 1;
+                        landedComponent.BlockTransform.Translate(Vector3.down * destroyComponent.VerticalOffset);
+                        blockDestroyComponent.VerticalIndex -= destroyComponent.VerticalOffset;
                         StaticLinesHolder.AddBlockDestroyComponent(blockDestroyComponent);
                     }
                 }

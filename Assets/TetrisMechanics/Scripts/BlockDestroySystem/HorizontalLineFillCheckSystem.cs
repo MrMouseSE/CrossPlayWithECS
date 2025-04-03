@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -13,6 +14,12 @@ namespace TetrisMechanics.Scripts.BlockDestroySystem
         
         private Filter _filter;
         private Stash<BlockDestroyComponent> _destroyComponentStash;
+        private ScoreData _scoreData;
+
+        public HorizontalLineFillCheckSystem(ScoreData scoreData)
+        {
+            _scoreData = scoreData;
+        }
 
         public void OnAwake()
         {
@@ -31,14 +38,22 @@ namespace TetrisMechanics.Scripts.BlockDestroySystem
                 blockDestroyComponent.ShouldBeDestroyed = fullLines.Contains(blockDestroyComponent.VerticalIndex);
             }
 
+            if (fullLines.Count < 1) return;
+            
+            MoveBlockAfterDestroyComponent moveBlockAfterDestroyComponent = new MoveBlockAfterDestroyComponent();
+            
             for (var index = 0; index < fullLines.Count; index++)
             {
-                var newMoveBlockAfterDestroyEntity = World.CreateEntity();
-                var moveAfterDestroyStash = World.GetStash<MoveBlockAfterDestroyComponent>();
-                moveAfterDestroyStash.Set(newMoveBlockAfterDestroyEntity,
-                    new MoveBlockAfterDestroyComponent { TimeToMove = 1.2f, DestroyVerticalIndex = fullLines[index] });
+                moveBlockAfterDestroyComponent.TimeToMove = 1.2f;
+                moveBlockAfterDestroyComponent.DestroyVerticalIndex = fullLines.Min();
+                moveBlockAfterDestroyComponent.VerticalOffset = index + 1;
                 StaticLinesHolder.ClearLine(fullLines[index]);
+                StaticScoreHolder.AddScore(_scoreData.ScoreForLideDestroy);
             }
+            
+            var newMoveBlockAfterDestroyEntity = World.CreateEntity();
+            var moveAfterDestroyStash = World.GetStash<MoveBlockAfterDestroyComponent>();
+            moveAfterDestroyStash.Set(newMoveBlockAfterDestroyEntity, moveBlockAfterDestroyComponent);
         }
     
         public void Dispose()

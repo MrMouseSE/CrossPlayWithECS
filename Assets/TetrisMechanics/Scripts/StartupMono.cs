@@ -3,6 +3,8 @@ using TetrisMechanics.Scripts.BlockDestroySystem;
 using TetrisMechanics.Scripts.BlockMovementByInputSystem;
 using TetrisMechanics.Scripts.BlockSpawnSystem;
 using TetrisMechanics.Scripts.BlockSystem;
+using TetrisMechanics.Scripts.UnitsSpawnSystem;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,13 +12,21 @@ namespace TetrisMechanics.Scripts
 {
     public class StartupMono : MonoBehaviour
     {
+        [Header("Game Rules Data")]
+        public ScoreData ScoreData;
+        public UnitSpawnRules UnitSpawnRules;
+        
+        [Space]
         public InputActionAsset InputActions;
+        public TextMeshPro ScoreText;
         
         private World _world;
         
         void Start()
         {
             _world = World.Default;
+            
+            StaticScoreHolder.ScoreText = ScoreText;
 
             var spawnSystem = _world.CreateSystemsGroup();
             spawnSystem.AddSystem(new SpawnSystem());
@@ -35,9 +45,9 @@ namespace TetrisMechanics.Scripts
             var landingSystem = _world.CreateSystemsGroup();
             landingSystem.AddSystem(new BlockLandingSystem());
             landingSystem.AddSystem(new LandedBlockSetToHolderSystem());
-            landingSystem.AddSystem(new HorizontalLineFillCheckSystem());
-            landingSystem.AddSystem(new MoveBlockAfterDestroySystem());
+            landingSystem.AddSystem(new HorizontalLineFillCheckSystem(ScoreData));
             landingSystem.AddSystem(new LandedBlockDestroySystem());
+            landingSystem.AddSystem(new MoveBlockAfterDestroySystem());
             landingSystem.AddSystem(new CurrentSelectedSystem());
             
             

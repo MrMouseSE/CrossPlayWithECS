@@ -17,6 +17,9 @@ namespace TetrisMechanics.Scripts.BlockSpawnSystem
         public int SpawnHorizontalOffset;
         public int SpawnVerticalOffset;
         public bool RandomSpawnPosition;
+        
+        [HideInInspector]
+        public float UnitSpawnTime;
 
         public GameObject SpawnPrefab()
         {

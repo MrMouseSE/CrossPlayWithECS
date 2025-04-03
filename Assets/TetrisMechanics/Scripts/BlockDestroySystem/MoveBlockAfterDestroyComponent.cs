@@ -11,5 +11,6 @@ namespace TetrisMechanics.Scripts.BlockDestroySystem
     {
         public float TimeToMove;
         public int DestroyVerticalIndex;
+        public int VerticalOffset;
     }
 }
