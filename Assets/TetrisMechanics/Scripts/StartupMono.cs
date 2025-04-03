@@ -16,7 +16,6 @@ namespace TetrisMechanics.Scripts
         
         void Start()
         {
-            StaticLinesHolder.InitLines();
             _world = World.Default;
 
             var spawnSystem = _world.CreateSystemsGroup();
