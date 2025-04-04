@@ -1,5 +1,6 @@
 using Runtime.Combat.Systems;
 using Runtime.Movement.Systems;
+using Runtime.Reward.Systems;
 using Runtime.Spawning.Systems;
 using Runtime.Targeting.Systems;
 using Runtime.Unit.Systems;
@@ -14,6 +15,8 @@ namespace Runtime.Core.Systems
 
         private void Start()
         {
+            Application.targetFrameRate = 120;
+            
             _world = World.Default;
             var systemsGroup = _world.CreateSystemsGroup();
 
@@ -34,6 +37,10 @@ namespace Runtime.Core.Systems
             
             systemsGroup.AddSystem(new AttackSystem());
             systemsGroup.AddSystem(new DeathSystem());
+            
+            systemsGroup.AddSystem(new HealthRewardSystem());
+            
+            
             
 #if UNITY_EDITOR
             systemsGroup.AddSystem(new UnitDebugSystem());

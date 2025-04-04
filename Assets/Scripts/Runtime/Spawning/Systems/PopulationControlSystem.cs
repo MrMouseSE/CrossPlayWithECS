@@ -1,4 +1,5 @@
 using Runtime.Spawning.Components;
+using Runtime.Unit.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 
@@ -10,27 +11,34 @@ namespace Runtime.Spawning.Systems
     public sealed class PopulationControlSystem : ISystem
     {
         public World World { get; set; }
-        
-        private Stash<EnemyUnitCount> _enemyUnitCountStash;
-        private Entity _enemyUnitCountEntity;
-        
-        private Stash<PlayerUnitCount> _playerUnitCountStash;
+
+
+        private Stash<PlayerMarker> _playerMarkerStash;
+        private Stash<EnemyMarker> _enemyMarkerStash;
+        private Stash<UnitCount> _unitCountStash;
         private Entity _playerUnitCountEntity;
-        
+        private Entity _enemyUnitCountEntity;
 
         public void OnAwake()
         {
+            _unitCountStash = World.GetStash<UnitCount>();
+            _playerMarkerStash = World.GetStash<PlayerMarker>();
+            _enemyMarkerStash = World.GetStash<EnemyMarker>();
+            
             _enemyUnitCountEntity = World.CreateEntity();
-            _enemyUnitCountStash = World.GetStash<EnemyUnitCount>();
-            _enemyUnitCountStash.Set(_enemyUnitCountEntity, new EnemyUnitCount { Count = 5 });
+            _enemyMarkerStash.Set(_enemyUnitCountEntity);
+            _unitCountStash.Set(_enemyUnitCountEntity, new UnitCount { Value = 5 });
             
             _playerUnitCountEntity = World.CreateEntity();
-            _playerUnitCountStash = World.GetStash<PlayerUnitCount>();
-            _playerUnitCountStash.Set(_playerUnitCountEntity, new PlayerUnitCount { Count = 5 });
+            _playerMarkerStash.Set(_playerUnitCountEntity);
+            _unitCountStash.Set(_playerUnitCountEntity, new UnitCount { Value = 10 });
 
         }
 
-        public void OnUpdate(float deltaTime) { }
+        public void OnUpdate(float deltaTime)
+        {
+            
+        }
 
         public void Dispose() { }
     }

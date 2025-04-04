@@ -62,7 +62,6 @@ namespace Runtime.Movement.Systems
             
                     if (agentComponent.NavMeshAgent.CalculatePath(targetPoint, path))
                     {
-                        Debug.Log($"Path calculated SUCCESSFULLY for unit {unitEntity.Id} to {targetPoint}. Path status: {path.status}");
                         agentComponent.NavMeshAgent.stoppingDistance = agentComponent.StoppingDistance;
                         agentComponent.Path = path;
                     }

@@ -18,7 +18,6 @@ namespace Runtime.Unit.Systems
         private Filter _availableDefensePointsFilter;
 
         private Stash<PlayerMarker> _playerMarkerStash;
-        private Stash<UnitComponent> _unitStash;
         private Stash<AssignedDefensePoint> _assignedPointStash;
         private Stash<IsMovingToDefensePoint> _isMovingStash;
         private Stash<IsOccupied> _isOccupiedStash;
@@ -33,60 +32,46 @@ namespace Runtime.Unit.Systems
                 .Without<AssignedDefensePoint>()
                 .Build();
 
-
-            _availableDefensePointsFilter = World.Filter.With<DefensePointComponent>().With<UnitComponent>()
-                .Without<IsOccupied>().Build();
-
-            _unitStash = World.GetStash<UnitComponent>();
+            _availableDefensePointsFilter = World.Filter
+                .With<DefensePointComponent>()
+                .With<UnitComponent>()
+                .Without<IsOccupied>()
+                .Without<IsDefaultDefensePoint>()
+                .Build();
+            
+            _defaultDefensePointEntity = World.Filter
+                .With<DefensePointComponent>()
+                .With<IsDefaultDefensePoint>()
+                .Build()
+                .First();
+            
             _assignedPointStash = World.GetStash<AssignedDefensePoint>();
             _isMovingStash = World.GetStash<IsMovingToDefensePoint>();
             _isOccupiedStash = World.GetStash<IsOccupied>();
-
-            _defaultDefensePointEntity = World.Filter.With<DefensePointComponent>().With<IsDefaultDefensePoint>()
-                .Build().First();
         }
 
         public void OnUpdate(float deltaTime)
         {
             foreach (var unitEntity in _newFriendlyUnitsFilter)
             {
-                ref var unitComponent = ref _unitStash.Get(unitEntity);
-                var unitPosition = unitComponent.RootTransform.position;
-
-                Entity bestPointEntity = default;
-                var minSqrDistance = float.MaxValue;
+                var bestPointEntity = _defaultDefensePointEntity;
 
                 foreach (var pointEntity in _availableDefensePointsFilter)
                 {
-                    ref var pointUnitComponent = ref _unitStash.Get(pointEntity);
-                    var pointPosition = pointUnitComponent.RootTransform.position;
-
-                    var sqrDistance = (unitPosition - pointPosition).sqrMagnitude;
-                    if (sqrDistance < minSqrDistance)
-                    {
-                        minSqrDistance = sqrDistance;
-                        bestPointEntity = pointEntity;
-                    }
+                    bestPointEntity = pointEntity;
+                    break;
                 }
 
-                Entity assignedEntity;
-                if (bestPointEntity != default)
-                {
-                    assignedEntity = bestPointEntity;
-                    _isOccupiedStash.Add(assignedEntity);
-                    Debug.Log($"Unit {unitEntity.Id} assigned to point {assignedEntity.Id}");
-                }
-                else
-                {
-                    assignedEntity = _defaultDefensePointEntity;
-                    Debug.Log($"Unit {unitEntity.Id} assigned to DEFAULT point {assignedEntity.Id}");
-                }
+                if (bestPointEntity != _defaultDefensePointEntity)
+                    _isOccupiedStash.Add(bestPointEntity);
 
-                _assignedPointStash.Set(unitEntity, new AssignedDefensePoint { TargetPointEntity = assignedEntity });
+                _assignedPointStash.Set(unitEntity, new AssignedDefensePoint { TargetPointEntity = bestPointEntity });
                 _isMovingStash.Add(unitEntity);
             }
         }
 
-        public void Dispose() { }
+        public void Dispose()
+        {
+        }
     }
 }

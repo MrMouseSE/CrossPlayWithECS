@@ -18,8 +18,7 @@ namespace Runtime.Combat.Systems
 
         private Stash<HealthComponent> _healthStash;
         private Stash<UnitComponent> _unitStash;
-        private Stash<EnemyUnitCount> _enemyUnitCountStash;
-        private Stash<PlayerUnitCount> _playerUnitCountStash;
+        private Stash<UnitCount> _playerUnitCountStash;
 
         private Stash<AssignedDefensePoint> _assignedPointStash;
         private Stash<IsOccupied> _isOccupiedStash;
@@ -31,13 +30,12 @@ namespace Runtime.Combat.Systems
         {
             _healthPlayerFilter = World.Filter.With<HealthComponent>().With<PlayerMarker>().Build();
             _healthEnemyFilter = World.Filter.With<HealthComponent>().With<EnemyMarker>().Build();
-            _enemyUnitCountEntity = World.Filter.With<EnemyUnitCount>().Build().First();
-            _playerUnitCountEntity = World.Filter.With<PlayerUnitCount>().Build().First();
+            _enemyUnitCountEntity = World.Filter.With<UnitCount>().With<EnemyMarker>().Build().First();
+            _playerUnitCountEntity = World.Filter.With<UnitCount>().With<PlayerMarker>().Build().First();
 
             _healthStash = World.GetStash<HealthComponent>();
             _unitStash = World.GetStash<UnitComponent>();
-            _enemyUnitCountStash = World.GetStash<EnemyUnitCount>();
-            _playerUnitCountStash = World.GetStash<PlayerUnitCount>();
+            _playerUnitCountStash = World.GetStash<UnitCount>();
             _assignedPointStash = World.GetStash<AssignedDefensePoint>();
             _isOccupiedStash = World.GetStash<IsOccupied>();
         }
@@ -49,7 +47,7 @@ namespace Runtime.Combat.Systems
                 if (IsDeath(healthEntity, true))
                 {
                     ref var countUnit = ref _playerUnitCountStash.Get(_playerUnitCountEntity);
-                    countUnit.Count--;
+                    countUnit.Value--;
                 }
             }
             
@@ -57,8 +55,8 @@ namespace Runtime.Combat.Systems
             {
                 if (IsDeath(healthEntity, false))
                 {
-                    ref var countUnit = ref _enemyUnitCountStash.Get(_enemyUnitCountEntity);
-                    countUnit.Count--;
+                    ref var countUnit = ref _playerUnitCountStash.Get(_enemyUnitCountEntity);
+                    countUnit.Value--;
                 }
             }
         }

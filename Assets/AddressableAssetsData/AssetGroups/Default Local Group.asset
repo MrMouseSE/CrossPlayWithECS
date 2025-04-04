@@ -15,13 +15,33 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 506437e9b9e2fab419c6b5edaed1010d
   m_SerializeEntries:
-  - m_GUID: 40df47999bfbc4948a0e942a10aae061
-    m_Address: Unit
+  - m_GUID: 10daa93ad4d8a20419dd97a77b723909
+    m_Address: UnitUncommonParameters
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 57ed2c11c749c204089a5f7f190a488c
+    m_Address: UnitMythicParameters
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 64a917af8cf150e41a6399e8d72f2f3f
-    m_Address: UnitParameters
+    m_Address: UnitCommonParameters
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9b0095fb407902448d8c3bee25358de
+    m_Address: UnitEpicParameters
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1326f5f21b77594baa7664db46bce2e
+    m_Address: UnitRareParameters
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd9f63f9e7fd2ab4fbb13d69e4cb934c
+    m_Address: UnitLegendaryParameters
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

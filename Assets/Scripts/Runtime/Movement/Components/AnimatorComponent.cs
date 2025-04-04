@@ -1,6 +1,7 @@
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Runtime.Movement.Components
 {
@@ -11,6 +12,6 @@ namespace Runtime.Movement.Components
     public struct AnimatorComponent: IComponent
     {
         public Animator RootAnimator;
-        public Transform TargetTransform;
+        [FormerlySerializedAs("TargetTransform")] public Transform rootSpineTransform;
     }
 }

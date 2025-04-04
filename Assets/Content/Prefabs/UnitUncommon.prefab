@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: -7010414687466016331}
   - component: {fileID: 3444895375388218991}
   m_Layer: 0
-  m_Name: Unit
+  m_Name: UnitUncommon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -253,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     RootAnimator: {fileID: 3512316273061540098}
-    TargetTransform: {fileID: 6219028768108779623}
+    rootSpineTransform: {fileID: 3139581917514807047}
 --- !u!114 &-7010414687466016331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,7 +282,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 240
   m_StoppingDistance: 2.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -487,14 +487,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 386241429501967403}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.49999988, y: -0.4999999, z: -0.50000006, w: -0.5000002}
   m_LocalPosition: {x: -2.0142756, y: -0.00000014533997, z: 0.00000032852887}
   m_LocalScale: {x: 1, y: 1, z: 1.0000002}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7242240357084546276}
   m_Father: {fileID: 3020203276128603219}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 90}
 --- !u!1 &685179616244437042
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,7 +576,7 @@ GameObject:
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6219028768108779623
 Transform:
   m_ObjectHideFlags: 0
@@ -946,7 +946,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3112507290035195526}
-  - component: {fileID: 8880549169655237515}
+  - component: {fileID: 864502246016484685}
   m_Layer: 0
   m_Name: Aim
   m_TagString: Untagged
@@ -969,7 +969,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5613815612257941827}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8880549169655237515
+--- !u!114 &864502246016484685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -978,16 +978,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1656017054243655169}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3c430f382484144e925c097c2d33cfe, type: 3}
+  m_Script: {fileID: 11500000, guid: fdb90b913935e644baaa86c076d788e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 3139581917514807047}
+    m_ConstrainedObject: {fileID: 6219028768108779623}
     m_SourceObjects:
       m_Length: 1
       m_Item0:
-        transform: {fileID: 6219028768108779623}
+        transform: {fileID: 3139581917514807047}
         weight: 1
       m_Item1:
         transform: {fileID: 0}
@@ -1011,18 +1011,11 @@ MonoBehaviour:
         transform: {fileID: 0}
         weight: 0
     m_Offset: {x: 0, y: 0, z: 0}
-    m_MinLimit: -180
-    m_MaxLimit: 180
-    m_AimAxis: 2
-    m_UpAxis: 1
-    m_WorldUpType: 0
-    m_WorldUpObject: {fileID: 0}
-    m_WorldUpAxis: 2
-    m_MaintainOffset: 0
     m_ConstrainedAxes:
-      x: 1
-      y: 0
+      x: 0
+      y: 1
       z: 0
+    m_MaintainOffset: 0
 --- !u!1 &1798643172034437194
 GameObject:
   m_ObjectHideFlags: 0
@@ -2255,7 +2248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5613815612257941827
 Transform:
   m_ObjectHideFlags: 0
@@ -2284,7 +2277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Effectors: []
 --- !u!1 &4499571110771851821
 GameObject:
@@ -2427,7 +2420,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4543457579610937649}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.49998975, y: 0.49998975, z: 0.4958607, w: 0.5041256}
+  m_LocalRotation: {x: -0.004132434, y: 0.0000031888478, z: 0.0041324487, w: -0.9999829}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4166,7 +4159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RigLayers:
   - m_Rig: {fileID: 54599776475331121}
-    m_Active: 1
+    m_Active: 0
   m_Effectors: []
 --- !u!114 &5857389352701727812
 MonoBehaviour:

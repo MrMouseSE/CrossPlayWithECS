@@ -1,5 +1,6 @@
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
+using UnityEngine.Serialization;
 
 namespace Runtime.Spawning.Components
 {
@@ -7,8 +8,8 @@ namespace Runtime.Spawning.Components
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    public struct EnemyUnitCount : IComponent
+    public struct UnitCount : IComponent
     {
-        public int Count;
+        public int Value;
     }
 }

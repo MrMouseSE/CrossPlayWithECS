@@ -21,9 +21,8 @@ namespace Runtime.Spawning.Systems
         private Filter _enemyFilter;
         private Filter _spawnAreaFilter;
         
-        
         private Stash<EnemyMarker> _enemyMarkerStash;
-        private Stash<EnemyUnitCount> _enemyUnitCountStash;
+        private Stash<UnitCount> _enemyUnitCountStash;
         private Stash<HealthComponent> _healthStash;
         private Stash<SpawnAreaComponent> _spawnAreaStash;
         private Stash<AttackComponent> _attackStash;
@@ -39,7 +38,7 @@ namespace Runtime.Spawning.Systems
         public void OnAwake()
         {
             _enemyMarkerStash = World.GetStash<EnemyMarker>();
-            _enemyUnitCountStash = World.GetStash<EnemyUnitCount>();
+            _enemyUnitCountStash = World.GetStash<UnitCount>();
             _healthStash = World.GetStash<HealthComponent>();
             _spawnAreaStash = World.GetStash<SpawnAreaComponent>();
             _attackStash = World.GetStash<AttackComponent>();
@@ -47,48 +46,30 @@ namespace Runtime.Spawning.Systems
             
             _enemyFilter = World.Filter.With<EnemyMarker>().With<UnitComponent>().Build();
             _spawnAreaFilter = World.Filter.With<SpawnAreaComponent>().With<EnemyMarker>().Build();
-
-            var jobHandle = Addressables.LoadAssetAsync<GameObject>("Unit");
-            jobHandle.Completed += OnPrefabLoaded;
             
-            var jobHandleParams = Addressables.LoadAssetAsync<UnitParameters>("UnitParameters");
-            jobHandleParams.Completed += OnUnitParametersLoaded;
-
             SpawnUtils.CacheSpawnAreas(_spawnAreaFilter, ref _spawnAreaEntities, ref _spawnAreaCount);
-            _enemyUnitCountEntity =  World.Filter.With<EnemyUnitCount>().Build().First();
+            _enemyUnitCountEntity = World.Filter.With<UnitCount>().With<EnemyMarker>().Build().First();
         }
-
-        private void OnPrefabLoaded(AsyncOperationHandle<GameObject> obj)
-        {
-            if (obj.Status == AsyncOperationStatus.Succeeded)
-            {
-                _unitPrefab = obj.Result;
-            }
-        }
-
-        private void OnUnitParametersLoaded(AsyncOperationHandle<UnitParameters> obj)
-        {
-            if (obj.Status == AsyncOperationStatus.Succeeded)
-            {
-                _unitParameters = obj.Result;
-            }
-        }
+      
 
         public void OnUpdate(float deltaTime)
         {
-            if (_unitPrefab == null || _unitParameters == null || _spawnAreaCount == 0)
+            if ( _unitParameters == null || _spawnAreaCount == 0)
                 return;
 
-            if (SpawnUtils.ShouldSpawnUnit(_enemyFilter,_enemyUnitCountStash.Get(_enemyUnitCountEntity).Count))
+            if (SpawnUtils.ShouldSpawnUnit(_enemyFilter,_enemyUnitCountStash.Get(_enemyUnitCountEntity).Value))
             {
-                var stashes = new SpawnStashes<EnemyMarker> {
+                var stashes = new SpawnStashes<EnemyMarker>
+                {
                     MarkerStash = _enemyMarkerStash,
                     HealthStash = _healthStash,
                     AttackStash = _attackStash,
                     NavMeshAgentStash = _navMeshAgentStash,
                     SpawnAreaStash = _spawnAreaStash
                 };
-                SpawnUtils.SpawnUnit(_unitPrefab, _unitParameters ,stashes, _spawnAreaEntities, _spawnAreaCount);
+                
+                
+                //SpawnUtils.SpawnUnit(_unitParameters ,stashes, _spawnAreaEntities, _spawnAreaCount);
             }
         }
 

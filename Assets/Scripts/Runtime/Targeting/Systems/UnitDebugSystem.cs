@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using Runtime.Combat.Components;
 using Runtime.Targeting.Components;
 using Runtime.Unit.Components;
@@ -76,3 +77,4 @@ namespace Runtime.Targeting.Systems
         }
     }
 }
+#endif

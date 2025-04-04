@@ -48,7 +48,6 @@ namespace Runtime.Movement.Systems
                 
                 var targetPosition = pointUnitComponent.RootTransform.position;
                 var path = new NavMeshPath();
-                Debug.Log($"Unit {unitEntity.Id} is moving to point {assignedPoint.TargetPointEntity.Id}");
                 if (agentComponent.NavMeshAgent.CalculatePath(targetPosition, path))
                 {
                     agentComponent.Path = path;
