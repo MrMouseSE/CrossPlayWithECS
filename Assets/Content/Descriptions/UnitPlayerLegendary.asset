@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0739a9347b99df44eb2a580ecff5297a, type: 3}
-  m_Name: UnitLegendaryParameters
+  m_Name: UnitPlayerLegendary
   m_EditorClassIdentifier: 
   UnitPrefab: {fileID: 1201150630663180859, guid: 26922fdf69d5fe446bb73102ff023da9, type: 3}
   Damage:

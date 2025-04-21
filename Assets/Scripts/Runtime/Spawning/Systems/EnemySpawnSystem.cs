@@ -22,7 +22,6 @@ namespace Runtime.Spawning.Systems
         private Filter _spawnAreaFilter;
         
         private Stash<EnemyMarker> _enemyMarkerStash;
-        private Stash<UnitCount> _enemyUnitCountStash;
         private Stash<HealthComponent> _healthStash;
         private Stash<SpawnAreaComponent> _spawnAreaStash;
         private Stash<AttackComponent> _attackStash;
@@ -38,7 +37,6 @@ namespace Runtime.Spawning.Systems
         public void OnAwake()
         {
             _enemyMarkerStash = World.GetStash<EnemyMarker>();
-            _enemyUnitCountStash = World.GetStash<UnitCount>();
             _healthStash = World.GetStash<HealthComponent>();
             _spawnAreaStash = World.GetStash<SpawnAreaComponent>();
             _attackStash = World.GetStash<AttackComponent>();
@@ -48,7 +46,6 @@ namespace Runtime.Spawning.Systems
             _spawnAreaFilter = World.Filter.With<SpawnAreaComponent>().With<EnemyMarker>().Build();
             
             SpawnUtils.CacheSpawnAreas(_spawnAreaFilter, ref _spawnAreaEntities, ref _spawnAreaCount);
-            _enemyUnitCountEntity = World.Filter.With<UnitCount>().With<EnemyMarker>().Build().First();
         }
       
 
@@ -57,20 +54,20 @@ namespace Runtime.Spawning.Systems
             if ( _unitParameters == null || _spawnAreaCount == 0)
                 return;
 
-            if (SpawnUtils.ShouldSpawnUnit(_enemyFilter,_enemyUnitCountStash.Get(_enemyUnitCountEntity).Value))
-            {
-                var stashes = new SpawnStashes<EnemyMarker>
-                {
-                    MarkerStash = _enemyMarkerStash,
-                    HealthStash = _healthStash,
-                    AttackStash = _attackStash,
-                    NavMeshAgentStash = _navMeshAgentStash,
-                    SpawnAreaStash = _spawnAreaStash
-                };
-                
-                
-                //SpawnUtils.SpawnUnit(_unitParameters ,stashes, _spawnAreaEntities, _spawnAreaCount);
-            }
+            // if (SpawnUtils.ShouldSpawnUnit(_enemyFilter,_enemyUnitCountStash.Get(_enemyUnitCountEntity).Value))
+            // {
+            //     var stashes = new SpawnStashes<EnemyMarker>
+            //     {
+            //         MarkerStash = _enemyMarkerStash,
+            //         HealthStash = _healthStash,
+            //         AttackStash = _attackStash,
+            //         NavMeshAgentStash = _navMeshAgentStash,
+            //         SpawnAreaStash = _spawnAreaStash
+            //     };
+            //     
+            //     
+            //     //SpawnUtils.SpawnUnit(_unitParameters ,stashes, _spawnAreaEntities, _spawnAreaCount);
+            // }
         }
 
         public void Dispose() { }

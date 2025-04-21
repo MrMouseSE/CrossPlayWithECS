@@ -19,26 +19,25 @@ namespace Runtime.Core.Systems
             
             _world = World.Default;
             var systemsGroup = _world.CreateSystemsGroup();
-
-            systemsGroup.AddSystem(new PopulationControlSystem());
-            systemsGroup.AddSystem(new PlayerSpawnSystem());
-            systemsGroup.AddSystem(new EnemySpawnSystem());
-
-            systemsGroup.AddSystem(new DefensePointAssignmentSystem());
-            systemsGroup.AddSystem(new TargetSelectionSystem());
-            systemsGroup.AddSystem(new TargetAnimationSystem());
-
-            systemsGroup.AddSystem(new PathfindingFriendlySystem());
-            systemsGroup.AddSystem(new PathfindingTargetSystem());
-
-            systemsGroup.AddSystem(new MovementSystem());
-            systemsGroup.AddSystem(new MovementAnimationSystem());
-            systemsGroup.AddSystem(new FriendlyArrivalSystem());
             
-            systemsGroup.AddSystem(new AttackSystem());
-            systemsGroup.AddSystem(new DeathSystem());
-            
-            systemsGroup.AddSystem(new HealthRewardSystem());
+            systemsGroup.AddSystem(new SpawnSystem());
+            // systemsGroup.AddSystem(new EnemySpawnSystem());
+            //
+            // systemsGroup.AddSystem(new DefensePointAssignmentSystem());
+            // systemsGroup.AddSystem(new TargetSelectionSystem());
+            // systemsGroup.AddSystem(new TargetAnimationSystem());
+            //
+            // systemsGroup.AddSystem(new PathfindingFriendlySystem());
+            // systemsGroup.AddSystem(new PathfindingTargetSystem());
+            //
+            // systemsGroup.AddSystem(new MovementSystem());
+            // systemsGroup.AddSystem(new MovementAnimationSystem());
+            // systemsGroup.AddSystem(new FriendlyArrivalSystem());
+            //
+            // systemsGroup.AddSystem(new AttackSystem());
+            // systemsGroup.AddSystem(new DeathSystem());
+            //
+            // systemsGroup.AddSystem(new HealthRewardSystem());
             
             
             

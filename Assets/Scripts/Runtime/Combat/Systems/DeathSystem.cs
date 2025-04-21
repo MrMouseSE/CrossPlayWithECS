@@ -1,4 +1,3 @@
-using Runtime.Spawning.Components;
 using Runtime.Unit.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
@@ -18,7 +17,6 @@ namespace Runtime.Combat.Systems
 
         private Stash<HealthComponent> _healthStash;
         private Stash<UnitComponent> _unitStash;
-        private Stash<UnitCount> _playerUnitCountStash;
 
         private Stash<AssignedDefensePoint> _assignedPointStash;
         private Stash<IsOccupied> _isOccupiedStash;
@@ -30,12 +28,9 @@ namespace Runtime.Combat.Systems
         {
             _healthPlayerFilter = World.Filter.With<HealthComponent>().With<PlayerMarker>().Build();
             _healthEnemyFilter = World.Filter.With<HealthComponent>().With<EnemyMarker>().Build();
-            _enemyUnitCountEntity = World.Filter.With<UnitCount>().With<EnemyMarker>().Build().First();
-            _playerUnitCountEntity = World.Filter.With<UnitCount>().With<PlayerMarker>().Build().First();
 
             _healthStash = World.GetStash<HealthComponent>();
             _unitStash = World.GetStash<UnitComponent>();
-            _playerUnitCountStash = World.GetStash<UnitCount>();
             _assignedPointStash = World.GetStash<AssignedDefensePoint>();
             _isOccupiedStash = World.GetStash<IsOccupied>();
         }
@@ -44,20 +39,12 @@ namespace Runtime.Combat.Systems
         {
             foreach (var healthEntity in _healthPlayerFilter)
             {
-                if (IsDeath(healthEntity, true))
-                {
-                    ref var countUnit = ref _playerUnitCountStash.Get(_playerUnitCountEntity);
-                    countUnit.Value--;
-                }
+                IsDeath(healthEntity, true);
             }
             
             foreach (var healthEntity in _healthEnemyFilter)
             {
-                if (IsDeath(healthEntity, false))
-                {
-                    ref var countUnit = ref _playerUnitCountStash.Get(_enemyUnitCountEntity);
-                    countUnit.Value--;
-                }
+                IsDeath(healthEntity, false);
             }
         }
         

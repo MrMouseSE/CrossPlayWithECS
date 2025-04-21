@@ -1,10 +1,7 @@
 using Runtime.Movement.Components;
-using Runtime.Targeting.Components;
 using Runtime.Unit.Components;
 using Scellecs.Morpeh;
 using Unity.IL2CPP.CompilerServices;
-using UnityEngine;
-using UnityEngine.AI;
 
 namespace Runtime.Movement.Systems
 {

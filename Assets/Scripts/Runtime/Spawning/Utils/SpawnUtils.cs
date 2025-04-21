@@ -6,7 +6,6 @@ using Runtime.Unit.Components;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Providers;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace Runtime.Spawning.Utils
 {
@@ -27,19 +26,9 @@ namespace Runtime.Spawning.Utils
             }
         }
         
-        public static bool ShouldSpawnUnit(Filter unitFilter, int count)
-        {
-            int currentCount = 0;
-            foreach (var _ in unitFilter)
-            {
-                currentCount++;
-            }
-            return currentCount < count;
-        }
-
         public static async Task SpawnUnit<TMarker>(UnitParameters unitParams,int count, SpawnStashes<TMarker> stashes,Vector3 spawnPosition, Quaternion spawnRotation) where TMarker : struct, IComponent
         {
-            var spawnedUnit = Object.InstantiateAsync<EntityProvider>(unitParams.UnitPrefab,count,spawnPosition, spawnRotation);
+            var spawnedUnit = Object.InstantiateAsync<EntityProvider>(unitParams.UnitPrefab, count, spawnPosition, spawnRotation);
             await spawnedUnit;
 
             for (int i = 0; i < count; i++)
@@ -52,19 +41,30 @@ namespace Runtime.Spawning.Utils
         private static void SetData<TMarker>(UnitParameters unitParams, SpawnStashes<TMarker> stashes, Entity unit) where TMarker : struct, IComponent
         {
             stashes.MarkerStash.Set(unit, new TMarker());
-            stashes.HealthStash.Set(unit, new HealthComponent { HealthPoints = Random.Range(unitParams.HealthPoints.x, unitParams.HealthPoints.y) });
-            stashes.AttackStash.Set(unit, new AttackComponent { Damage = Random.Range(unitParams.Damage.x, unitParams.Damage.y), AttackRange = Random.Range(unitParams.AttackRange.x, unitParams.AttackRange.y), 
-                AttackCooldown = Random.Range(unitParams.AttackCooldown.x, unitParams.AttackCooldown.y) });
+            stashes.HealthStash.Set(unit, new HealthComponent
+            {
+                HealthPoints = Random.Range(unitParams.HealthPoints.x, unitParams.HealthPoints.y) 
+            });
+            stashes.AttackStash.Set(unit, new AttackComponent 
+            { 
+                Damage = Random.Range(unitParams.Damage.x, unitParams.Damage.y),
+                AttackRange = Random.Range(unitParams.AttackRange.x, unitParams.AttackRange.y), 
+                AttackCooldown = Random.Range(unitParams.AttackCooldown.x, unitParams.AttackCooldown.y) 
+            });
             stashes.NavMeshAgentStash.Get(unit).NavMeshAgent.speed = Random.Range(unitParams.Speed.x, unitParams.Speed.y);
             stashes.NavMeshAgentStash.Get(unit).StoppingDistance = Random.Range(unitParams.StoppingDistance.x, unitParams.StoppingDistance.y);
         }
         
         
-        public static string[] KeyUnits =
+        public static readonly string[] KeyUnits =
         {
-            "UnitCommonParameters", "UnitUncommonParameters", 
-            "UnitRareParameters", "UnitEpicParameters",
-            "UnitLegendaryParameters", "UnitMythicParameters"
+            "UnitPlayerCommon", "UnitPlayerEpic", 
+            "UnitPlayerLegendary", "UnitPlayerMythic",
+            "UnitPlayerRare", "UnitPlayerUncommon",
+            
+            "UnitEnemyCommon", "UnitEnemyEpic", 
+            "UnitEnemyLegendary", "UnitEnemyMythic",
+            "UnitEnemyRare", "UnitEnemyUncommon"
         };
     }
 

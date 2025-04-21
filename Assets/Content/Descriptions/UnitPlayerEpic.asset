@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0739a9347b99df44eb2a580ecff5297a, type: 3}
-  m_Name: UnitMythicParameters
+  m_Name: UnitPlayerEpic
   m_EditorClassIdentifier: 
-  UnitPrefab: {fileID: 1201150630663180859, guid: 16f893f24d8621642a4939ad08c58ef6, type: 3}
+  UnitPrefab: {fileID: 1201150630663180859, guid: 59f4084fc4c3eec4ba78ff9842fab1fc, type: 3}
   Damage:
     x: 20
     y: 30

@@ -16,32 +16,62 @@ MonoBehaviour:
   m_GUID: 506437e9b9e2fab419c6b5edaed1010d
   m_SerializeEntries:
   - m_GUID: 10daa93ad4d8a20419dd97a77b723909
-    m_Address: UnitUncommonParameters
+    m_Address: UnitEnemyUncommon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5434fa2e70c16124ab55ae4a07f46233
+    m_Address: UnitPlayerMythic
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 57ed2c11c749c204089a5f7f190a488c
-    m_Address: UnitMythicParameters
+    m_Address: UnitEnemyMythic
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 64a917af8cf150e41a6399e8d72f2f3f
-    m_Address: UnitCommonParameters
+    m_Address: UnitEnemyCommon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8dfe16af9bf8e0a458d9b63f87c3496a
+    m_Address: UnitPlayerLegendary
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7a6c9204ef6eca4daae79dff72c1f2c
+    m_Address: UnitPlayerUncommon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a9b0095fb407902448d8c3bee25358de
-    m_Address: UnitEpicParameters
+    m_Address: UnitEnemyEpic
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c1326f5f21b77594baa7664db46bce2e
-    m_Address: UnitRareParameters
+    m_Address: UnitEnemyRare
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cd9f63f9e7fd2ab4fbb13d69e4cb934c
-    m_Address: UnitLegendaryParameters
+    m_Address: UnitEnemyLegendary
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d694ca6b7259ebd449acba38c24fcf2d
+    m_Address: UnitPlayerRare
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3a4af1fb4ccfff4f8649115e98f5264
+    m_Address: UnitPlayerEpic
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f04c4215a4ea18540b6632e98de71893
+    m_Address: UnitPlayerCommon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

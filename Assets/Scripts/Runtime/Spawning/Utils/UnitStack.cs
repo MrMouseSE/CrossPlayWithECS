@@ -4,18 +4,18 @@ namespace Runtime.Spawning.Utils
 {
     public static class UnitStack
     {
-        public static List<(int, int)> LevelAndCount = new List<(int, int)>() { (0, 15) };
-        
-        public static void Add(int level, int count) => LevelAndCount.Add((level, count));
+        public static List<(string, int)> IdAndCount = new() { ("UnitPlayerCommon", 3) };
 
-        public static (int level, int count) GetFirstUnit()
+        public static void Add(string id, int count) => IdAndCount.Add((id, count));
+
+        public static (string Id, int count) GetFirstUnit()
         {
-            (int level, int count) firstUnit = LevelAndCount[0];
+            (string level, int count) firstUnit = IdAndCount[0];
             firstUnit.count--;
-            LevelAndCount[0] = firstUnit;
+            IdAndCount[0] = firstUnit;
             
             if (firstUnit.count == 0) 
-                LevelAndCount.RemoveAt(0);
+                IdAndCount.RemoveAt(0);
             
             return firstUnit;
         }

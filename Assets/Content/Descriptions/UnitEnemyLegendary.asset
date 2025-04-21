@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0739a9347b99df44eb2a580ecff5297a, type: 3}
+  m_Name: UnitEnemyLegendary
+  m_EditorClassIdentifier: 
+  UnitPrefab: {fileID: 1201150630663180859, guid: 26922fdf69d5fe446bb73102ff023da9, type: 3}
+  Damage:
+    x: 20
+    y: 30
+  AttackRange:
+    x: 8
+    y: 15
+  HealthPoints:
+    x: 100
+    y: 125
+  AttackCooldown:
+    x: 1.5
+    y: 2
+  Speed:
+    x: 4
+    y: 6
+  StoppingDistance:
+    x: 7
+    y: 10
