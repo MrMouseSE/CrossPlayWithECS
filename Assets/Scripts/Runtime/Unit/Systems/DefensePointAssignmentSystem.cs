@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Runtime.Movement.Components;
 using Runtime.Unit.Components;
 using Scellecs.Morpeh;
@@ -14,7 +13,7 @@ namespace Runtime.Unit.Systems
     {
         public World World { get; set; }
 
-        private Filter _newFriendlyUnitsFilter;
+        private Filter _newUnitsFilter;
         private Filter _availableDefensePointsFilter;
 
         private Stash<PlayerMarker> _playerMarkerStash;
@@ -25,7 +24,7 @@ namespace Runtime.Unit.Systems
 
         public void OnAwake()
         {
-            _newFriendlyUnitsFilter = World.Filter
+            _newUnitsFilter = World.Filter
                 .With<PlayerMarker>()
                 .With<UnitComponent>()
                 .With<NavMeshAgentComponent>()
@@ -52,18 +51,24 @@ namespace Runtime.Unit.Systems
 
         public void OnUpdate(float deltaTime)
         {
-            foreach (var unitEntity in _newFriendlyUnitsFilter)
+            foreach (var unitEntity in _newUnitsFilter)
             {
                 var bestPointEntity = _defaultDefensePointEntity;
 
                 foreach (var pointEntity in _availableDefensePointsFilter)
                 {
-                    bestPointEntity = pointEntity;
-                    break;
+                    if (!_isOccupiedStash.Has(pointEntity))
+                    {
+                        bestPointEntity = pointEntity;
+                        break;     
+                    }
                 }
 
                 if (bestPointEntity != _defaultDefensePointEntity)
+                {
                     _isOccupiedStash.Add(bestPointEntity);
+                }
+                
 
                 _assignedPointStash.Set(unitEntity, new AssignedDefensePoint { TargetPointEntity = bestPointEntity });
                 _isMovingStash.Add(unitEntity);

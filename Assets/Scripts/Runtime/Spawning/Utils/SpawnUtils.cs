@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Runtime.Combat.Components;
 using Runtime.Movement.Components;
 using Runtime.Spawning.Components;
@@ -11,31 +12,35 @@ namespace Runtime.Spawning.Utils
 {
     public static class SpawnUtils
     {
-        public static void CacheSpawnAreas(Filter spawnAreaFilter, ref Entity[] spawnAreaEntities, ref int spawnAreaCount)
+        public static void CacheSpawnAreas(Filter spawnAreaFilter, ref List<Entity> spawnAreaEntities)
         {
-            spawnAreaCount = 0;
-            spawnAreaEntities = new Entity[16];
+            spawnAreaEntities = new List<Entity>();
 
-            foreach (var entity in spawnAreaFilter)
-            {
-                if (spawnAreaCount >= spawnAreaEntities.Length)
-                {
-                    System.Array.Resize(ref spawnAreaEntities, spawnAreaEntities.Length * 2);
-                }
-                spawnAreaEntities[spawnAreaCount++] = entity;
-            }
+            foreach (var entity in spawnAreaFilter) 
+                spawnAreaEntities.Add(entity);
         }
         
-        public static async Task SpawnUnit<TMarker>(UnitParameters unitParams,int count, SpawnStashes<TMarker> stashes,Vector3 spawnPosition, Quaternion spawnRotation) where TMarker : struct, IComponent
+        public static async Task SpawnUnit<TMarker>(UnitParameters unitParams,int count, SpawnStashes<TMarker> stashes, SpawnAreaComponent spawnArea) where TMarker : struct, IComponent
         {
-            var spawnedUnit = Object.InstantiateAsync<EntityProvider>(unitParams.UnitPrefab, count, spawnPosition, spawnRotation);
+            var spawnedUnit = Object.InstantiateAsync<EntityProvider>(unitParams.UnitPrefab, count);
             await spawnedUnit;
 
             for (int i = 0; i < count; i++)
             {
                 var unit = spawnedUnit.Result[i].Entity;
+                var transform = spawnedUnit.Result[i].transform;
+                SetPositionAndRotation(spawnArea,transform);
                 SetData(unitParams, stashes, unit);
             }
+        }
+
+        private static void SetPositionAndRotation(SpawnAreaComponent spawnArea, Transform transform)
+        {
+            var randomCircle = Random.insideUnitCircle * spawnArea.Radius;
+            var spawnPosition = spawnArea.RootTransform.position + new Vector3(randomCircle.x, 0, randomCircle.y);
+            var spawnRotation = spawnArea.RootTransform.rotation;
+            
+            transform.SetPositionAndRotation(spawnPosition, spawnRotation);
         }
 
         private static void SetData<TMarker>(UnitParameters unitParams, SpawnStashes<TMarker> stashes, Entity unit) where TMarker : struct, IComponent
@@ -73,7 +78,6 @@ namespace Runtime.Spawning.Utils
         public Stash<TMarker> MarkerStash;
         public Stash<HealthComponent> HealthStash;
         public Stash<AttackComponent> AttackStash;
-        public Stash<SpawnAreaComponent> SpawnAreaStash;
         public Stash<NavMeshAgentComponent> NavMeshAgentStash;
     }
     

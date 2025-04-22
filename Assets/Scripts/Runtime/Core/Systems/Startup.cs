@@ -21,9 +21,8 @@ namespace Runtime.Core.Systems
             var systemsGroup = _world.CreateSystemsGroup();
             
             systemsGroup.AddSystem(new SpawnSystem());
-            // systemsGroup.AddSystem(new EnemySpawnSystem());
-            //
-            // systemsGroup.AddSystem(new DefensePointAssignmentSystem());
+            
+            systemsGroup.AddSystem(new DefensePointAssignmentSystem());
             // systemsGroup.AddSystem(new TargetSelectionSystem());
             // systemsGroup.AddSystem(new TargetAnimationSystem());
             //

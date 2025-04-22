@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UnitEnemyMythic
   m_EditorClassIdentifier: 
   UnitPrefab: {fileID: 1201150630663180859, guid: 16f893f24d8621642a4939ad08c58ef6, type: 3}
+  Faction: 1
   Damage:
     x: 20
     y: 30

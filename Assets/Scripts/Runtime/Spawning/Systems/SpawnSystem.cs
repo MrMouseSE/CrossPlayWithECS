@@ -1,17 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Runtime.Combat.Components;
 using Runtime.Movement.Components;
 using Runtime.Spawning.Components;
 using Runtime.Spawning.Utils;
 using Runtime.Unit.Components;
 using Scellecs.Morpeh;
-using Scellecs.Morpeh.Providers;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Random = UnityEngine.Random;
 
 namespace Runtime.Spawning.Systems
@@ -25,32 +22,37 @@ namespace Runtime.Spawning.Systems
         
         private Filter _spawnAreaFilter;
         
-        private Stash<AttackComponent> _attackStash;
-        private Stash<NavMeshAgentComponent> _navMeshAgentStash;
         private Stash<PlayerMarker> _playerMarkerStash;
         private Stash<EnemyMarker> _enemyMarkerStash;
+        
+        private Stash<AttackComponent> _attackStash;
+        private Stash<NavMeshAgentComponent> _navMeshAgentStash;
         private Stash<HealthComponent> _healthStash;
         private Stash<SpawnAreaComponent> _spawnAreaStash;
-        private Entity _playerUnitCountEntity;
 
-        private Entity[] _spawnAreaEntities;
-        private int _spawnAreaCount;
-        private readonly Dictionary<string,UnitParameters> _units = new();
+        private List<Entity> _spawnPlayerAreaEntities;
+        private List<Entity> _spawnEnemyAreaEntities;
+        
         private SpawnStashes<PlayerMarker> _playerStashes;
         private SpawnStashes<EnemyMarker> _enemyStashes;
 
+        private readonly Dictionary<string, UnitParameters> _units = new();
 
         public void OnAwake()
         {
             _playerMarkerStash = World.GetStash<PlayerMarker>();
             _enemyMarkerStash = World.GetStash<EnemyMarker>();
+            
             _healthStash = World.GetStash<HealthComponent>();
             _spawnAreaStash = World.GetStash<SpawnAreaComponent>();
             _attackStash = World.GetStash<AttackComponent>();
             _navMeshAgentStash = World.GetStash<NavMeshAgentComponent>();
-            _spawnAreaFilter = World.Filter.With<SpawnAreaComponent>().With<PlayerMarker>().Build();
             
-            SpawnUtils.CacheSpawnAreas(_spawnAreaFilter, ref _spawnAreaEntities, ref _spawnAreaCount);
+            var spawnPlayerAreaFilter = World.Filter.With<SpawnAreaComponent>().With<PlayerMarker>().Build();
+            var spawnEnemyAreaFilter = World.Filter.With<SpawnAreaComponent>().With<EnemyMarker>().Build();
+            
+            SpawnUtils.CacheSpawnAreas(spawnPlayerAreaFilter, ref _spawnPlayerAreaEntities);
+            SpawnUtils.CacheSpawnAreas(spawnEnemyAreaFilter, ref _spawnEnemyAreaEntities);
 
             for (int i = 0; i < SpawnUtils.KeyUnits.Length; i++) 
                 OnUnitLoaded(SpawnUtils.KeyUnits[i]);
@@ -62,7 +64,6 @@ namespace Runtime.Spawning.Systems
                 HealthStash = _healthStash,
                 AttackStash = _attackStash,
                 NavMeshAgentStash = _navMeshAgentStash,
-                SpawnAreaStash = _spawnAreaStash
             };
             
             _enemyStashes = new SpawnStashes<EnemyMarker>
@@ -71,7 +72,6 @@ namespace Runtime.Spawning.Systems
                 HealthStash = _healthStash,
                 AttackStash = _attackStash,
                 NavMeshAgentStash = _navMeshAgentStash,
-                SpawnAreaStash = _spawnAreaStash
             };
         }
 
@@ -98,14 +98,21 @@ namespace Runtime.Spawning.Systems
             
             if (_units.TryGetValue(id, out var unitParams))
             {
-                var randomIndex = Random.Range(0, _spawnAreaCount);
-                ref var spawnArea = ref _playerStashes.SpawnAreaStash.Get(_spawnAreaEntities[randomIndex]);
-
-                var randomCircle = Random.insideUnitCircle * spawnArea.Radius;
-                var spawnPosition = spawnArea.RootTransform.position + new Vector3(randomCircle.x, 0, randomCircle.y);
-                var spawnRotation = spawnArea.RootTransform.rotation;
-
-                _ = SpawnUtils.SpawnUnit(unitParams, count, _playerStashes, spawnPosition, spawnRotation);
+                if (unitParams.Faction == UnitFaction.Player)
+                {
+                    var randomIndex = Random.Range(0, _spawnPlayerAreaEntities.Count);
+                    ref var spawnArea = ref _spawnAreaStash.Get(_spawnPlayerAreaEntities[randomIndex]);
+                    
+                    _ = SpawnUtils.SpawnUnit(unitParams, count, _playerStashes, spawnArea);
+                }
+                  
+                else
+                {
+                    var randomIndex = Random.Range(0, _spawnEnemyAreaEntities.Count);
+                    ref var spawnArea = ref _spawnAreaStash.Get(_spawnEnemyAreaEntities[randomIndex]);
+                    
+                    _ = SpawnUtils.SpawnUnit(unitParams, count, _enemyStashes, spawnArea);
+                }
             }
         }
 

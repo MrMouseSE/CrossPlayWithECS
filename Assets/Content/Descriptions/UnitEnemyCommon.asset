@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UnitEnemyCommon
   m_EditorClassIdentifier: 
   UnitPrefab: {fileID: 1201150630663180859, guid: 40df47999bfbc4948a0e942a10aae061, type: 3}
+  Faction: 1
   Damage:
     x: 20
     y: 30
