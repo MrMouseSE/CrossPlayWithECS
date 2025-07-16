@@ -1,18 +1,14 @@
-using TMPro;
 using UnityEngine;
 
 namespace TetrisMechanics.Scripts
 {
     public static class StaticScoreHolder
     {
-        public static TextMeshPro ScoreText;
-        
         private static int _currentScore;
 
         public static void AddScore(int score)
         {
             _currentScore += score;
-            ScoreText.text = _currentScore.ToString();
         }
 
         public static int GetScore()

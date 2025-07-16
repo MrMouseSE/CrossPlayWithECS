@@ -18,7 +18,6 @@ namespace TetrisMechanics.Scripts
         
         [Space]
         public InputActionAsset InputActions;
-        public TextMeshPro ScoreText;
         
         private World _world;
         
@@ -26,11 +25,8 @@ namespace TetrisMechanics.Scripts
         {
             _world = World.Default;
             
-            StaticScoreHolder.ScoreText = ScoreText;
-
             var spawnSystem = _world.CreateSystemsGroup();
             spawnSystem.AddSystem(new SpawnSystem());
-            
             
             var inputMovementSystem = _world.CreateSystemsGroup();
             inputMovementSystem.AddSystem(new InputHolderSystem(InputActions));
@@ -50,11 +46,16 @@ namespace TetrisMechanics.Scripts
             landingSystem.AddSystem(new MoveBlockAfterDestroySystem());
             landingSystem.AddSystem(new CurrentSelectedSystem());
             
+            var tweenAnimationSystem = _world.CreateSystemsGroup();
+            tweenAnimationSystem.AddSystem(new TweenAnimationSystem.ScoreValueUpdatedCheckSystem());
+            tweenAnimationSystem.AddSystem(new TweenAnimationSystem.TextCountAnimationSystem());
+            
             
             _world.AddSystemsGroup(100, spawnSystem);
             _world.AddSystemsGroup(300, blockMovementSystem);
             _world.AddSystemsGroup(400, inputMovementSystem);
             _world.AddSystemsGroup(500, landingSystem);
+            _world.AddSystemsGroup(900, tweenAnimationSystem);
         }
     }
 }
