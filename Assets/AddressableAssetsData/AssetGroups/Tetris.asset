@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Tetris
+  m_EditorClassIdentifier: 
+  m_GroupName: Tetris
+  m_GUID: 8d63f62618329ce43bcbfc944109ef6a
+  m_SerializeEntries:
+  - m_GUID: 0ba3f0b4b7ef2b542819e54b82e38e99
+    m_Address: TetrisMovementRulesDescription
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef34c24442e05954da9ec0f6c2d20d30
+    m_Address: TetrisObjectDescription
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 0b169bf4026f0934d924d00d4c33fe66, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 26de93a723492ec4daaad47082eea957, type: 2}
+    - {fileID: 11400000, guid: 7c228e7c797e9e749854b075f29c77b1, type: 2}

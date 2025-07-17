@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Runtime.TetrisMechanics.TetrisPartComponents
 {
-    public class SimplePartComponent : ITetrisPartComponent
+    public class EmptyPartComponent : ITetrisPartComponent
     {
         public void InitializePart()
         {
@@ -17,7 +17,6 @@ namespace Runtime.TetrisMechanics.TetrisPartComponents
         public void DestroyPart(ITetrisPartComponent[,] currentPartsHolder, List<ITetrisPartComponent> emptyPartsHolder, 
             int linePosition, int height)
         {
-            throw new System.NotImplementedException();
         }
     }
 }
